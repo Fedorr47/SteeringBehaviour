@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SteeringBehaviour", "SteeringBehaviour.vcxproj", "{EB3C10FE-8173-4121-B7C0-CF03971A1CB5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game_Tests", "..\Game_Tests\Game_Tests.vcxproj", "{6253E72C-EE71-428B-8738-B9107B6C951B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{EB3C10FE-8173-4121-B7C0-CF03971A1CB5}.Release|x64.Build.0 = Release|x64
 		{EB3C10FE-8173-4121-B7C0-CF03971A1CB5}.Release|x86.ActiveCfg = Release|Win32
 		{EB3C10FE-8173-4121-B7C0-CF03971A1CB5}.Release|x86.Build.0 = Release|Win32
+		{6253E72C-EE71-428B-8738-B9107B6C951B}.Debug|x64.ActiveCfg = Debug|x64
+		{6253E72C-EE71-428B-8738-B9107B6C951B}.Debug|x64.Build.0 = Debug|x64
+		{6253E72C-EE71-428B-8738-B9107B6C951B}.Debug|x86.ActiveCfg = Debug|Win32
+		{6253E72C-EE71-428B-8738-B9107B6C951B}.Debug|x86.Build.0 = Debug|Win32
+		{6253E72C-EE71-428B-8738-B9107B6C951B}.Release|x64.ActiveCfg = Release|x64
+		{6253E72C-EE71-428B-8738-B9107B6C951B}.Release|x64.Build.0 = Release|x64
+		{6253E72C-EE71-428B-8738-B9107B6C951B}.Release|x86.ActiveCfg = Release|Win32
+		{6253E72C-EE71-428B-8738-B9107B6C951B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

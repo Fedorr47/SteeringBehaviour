@@ -17,6 +17,8 @@ public:
 
     void render(sf::RenderWindow& window);
 
+    const entt::registry& getRegistry() const { return registry; }
+
 private:
     entt::registry registry;
 

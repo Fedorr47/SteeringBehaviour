@@ -221,8 +221,12 @@
     <ClInclude Include="Public\EntityManager\EntityManager.h" />
     <ClInclude Include="Public\Game\Game.h" />
     <ClInclude Include="Public\Player\Player.h" />
+    <ClInclude Include="Public\Settings\GameSettings.h" />
+    <ClInclude Include="Public\Systems\InputHandler.h" />
     <ClInclude Include="Public\Systems\InputSystem.h" />
     <ClInclude Include="Public\Systems\MovementSystem.h" />
+    <ClInclude Include="Public\Systems\PositionSystem.h" />
+    <ClInclude Include="Public\Systems\RealInputHandler.h" />
     <ClInclude Include="Public\Systems\RenderSystem.h" />
     <ClInclude Include="Public\Window\Window.h" />
   </ItemGroup>

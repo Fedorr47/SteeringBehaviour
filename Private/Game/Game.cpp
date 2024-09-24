@@ -1,14 +1,22 @@
-#include "Game/Game.h"
+﻿#include "Game/Game.h"
+#include "entt/entt.hpp"
+#include "Player/Player.h"
+#include "Components/Components.h"
+#include "Systems/MovementSystem.h"
+#include "Systems/RenderSystem.h"
+#include "Systems/InputSystem.h"
 
-Game::Game() : window("Simple SFML Game with EnTT", { 800, 600 })
+Game::Game() : 
+    window("Steering Behaviour with EntityManager", { 800, 600 }),
+    settings{ 500.0f, 200.0f, *window.getRenderWindow() },
+    entityManager(settings, inputHandler)
 {
-    createPlayer(); 
+    active_entity.push_back(entityManager.createPlayer(false));
+    active_entity.push_back(entityManager.createNonPlayer());
 }
 
-void Game::run()
-{
-    while (window.isOpen())
-    {
+void Game::run() {
+    while (window.isOpen()) {
         processEvents();
         sf::Time deltaTime = clock.restart();
         update(deltaTime.asSeconds());
@@ -16,33 +24,29 @@ void Game::run()
     }
 }
 
-void Game::processEvents()
-{
+void Game::processEvents() {
+    sf::Event event;
+    while (window.getRenderWindow()->pollEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            window.close();
+        }
+        else if (event.type == sf::Event::LostFocus) {
+            entityManager.SetFocusState(false);
+        }
+        else if (event.type == sf::Event::GainedFocus) {
+            entityManager.SetFocusState(true);
+        }
+    }
+
     window.update();
 }
 
-void Game::update(float deltaTime)
-{
-    inputSystem.update(registry, deltaTime);
-    movementSystem.update(registry, deltaTime);
+void Game::update(float deltaTime) {
+    entityManager.update(deltaTime);
 }
 
-void Game::render()
-{
+void Game::render() {
     window.beginDraw();
-    renderSystem.render(registry, *window.getRenderWindow());
+    entityManager.render(*window.getRenderWindow());
     window.endDraw();
-}
-
-void Game::createPlayer()
-{
-    auto player = registry.create();
-
-    registry.emplace<PositionComponent>(player, sf::Vector2f(375.0f, 275.0f));
-
-    registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 200.0f);
-
-    sf::RectangleShape shape(sf::Vector2f(50.0f, 50.0f));
-    shape.setFillColor(sf::Color::Green);
-    registry.emplace<ShapeComponent>(player, shape);
 }

@@ -1,10 +1,8 @@
 ﻿#pragma once
-#include "Player/Player.h"
 #include "Window/Window.h"
-#include "Components/Components.h"
-#include "Systems/MovementSystem.h"
-#include "Systems/RenderSystem.h"
-#include "Systems/InputSystem.h"
+#include "EntityManager/EntityManager.h"
+#include "Settings/GameSettings.h"
+#include <Systems/RealInputHandler.h>
 
 class Game
 {
@@ -17,14 +15,12 @@ private:
     void update(float deltaTime);
     void render();
 
-    Window window;  // Окно игры
-    entt::registry registry;
-
-    // Системы игры
-    MovementSystem movementSystem;
-    RenderSystem renderSystem;
-    InputSystem inputSystem;
+    Window window;
+    GameSettings settings;
+    EntityManager entityManager;
+    RealInputHandler inputHandler;
 
     sf::Clock clock;
-    void createPlayer();
+
+    std::vector<entt::entity> active_entity;
 };

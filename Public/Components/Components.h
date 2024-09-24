@@ -16,3 +16,17 @@ struct ShapeComponent
 {
     sf::RectangleShape shape;
 };
+
+struct MassComponent {
+    float mass;
+};
+
+struct ControlComponent {
+    bool useMouseControl;
+    bool autoSwitch;
+};
+
+struct FocusComponent
+{
+    bool isFocusLost = false;
+};

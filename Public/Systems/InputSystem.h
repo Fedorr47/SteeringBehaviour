@@ -13,6 +13,32 @@ inline sf::Vector2f truncate(const sf::Vector2f& vec, float max) {
     return vec;
 }
 
+inline sf::Vector2f normalize(const sf::Vector2f& source)
+{
+    float length = sqrt((source.x * source.x) + (source.y * source.y));
+    if (length != 0)
+        return sf::Vector2f(source.x / length, source.y / length);
+    else
+        return source;
+}
+
+inline void SteeringBehaviour(
+    sf::Vector2f& position, 
+    sf::Vector2f& target, 
+    sf::Vector2f& velocity, 
+    float mass, 
+    float maxForce, 
+    float maxSpeed)
+{
+    auto desired_velocity = normalize(target - position) * maxSpeed;
+    auto steering = desired_velocity - velocity;
+    steering = truncate(steering, maxForce);
+    steering = steering / mass;
+
+    velocity = truncate(velocity + steering, maxSpeed);
+    position = position + velocity;
+}
+
 class InputSystem {
 public:
 
@@ -55,14 +81,12 @@ public:
                 sf::Vector2i mousePos = inputHandler.getMousePosition(window);
                 sf::Vector2f target(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-                float stopThreshold = 50.0f;
+                float stopThreshold = 5.0f;
                 float distanceToTarget = std::sqrt(std::pow(target.x - position.position.x, 2) +
                     std::pow(target.y - position.position.y, 2));
 
                 if (distanceToTarget > stopThreshold) {
-                    sf::Vector2f steering = target - position.position;
-                    steering = truncate(steering, maxForce);
-                    velocity.velocity = truncate(velocity.velocity + (steering / mass.mass), maxSpeed);
+                    SteeringBehaviour(position.position, target, velocity.velocity, mass.mass, maxForce, maxSpeed);
                 }
                 else {
                     velocity.velocity = { 0.0f, 0.0f };

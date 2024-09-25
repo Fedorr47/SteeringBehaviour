@@ -1,5 +1,5 @@
 #pragma once
-#include <entt/entt.hpp>
+#include <ThirdParty/entt/entt.hpp>
 #include "Components/Components.h"
 
 class PositionSystem {

@@ -1,6 +1,7 @@
-#include <Game/Game.h>
-#include "entt/entt.hpp"
 #include <iostream>
+#include <Game/Game.h>
+#include "ThirdParty/entt/entt.hpp"
+#include "ThirdParty/imgui/imgui-SFML.h"
 
 void StartGame()
 {

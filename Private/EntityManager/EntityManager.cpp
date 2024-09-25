@@ -6,7 +6,7 @@ entt::entity EntityManager::createPlayer(bool useMouseControl /*= false*/)
 
     registry.emplace<PositionComponent>(player, sf::Vector2f(375.0f, 275.0f));
     registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 200.0f);
-    registry.emplace<MassComponent>(player, 300.0f);
+    registry.emplace<MassComponent>(player, 100.0f);
 
     sf::RectangleShape shape(sf::Vector2f(50.0f, 50.0f));
     shape.setFillColor(sf::Color::Green);

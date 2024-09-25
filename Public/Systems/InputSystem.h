@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <entt/entt.hpp>
+#include <ThirdParty/entt/entt.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include "Components/Components.h"
 #include "InputHandler.h"
@@ -55,7 +55,7 @@ public:
                 sf::Vector2i mousePos = inputHandler.getMousePosition(window);
                 sf::Vector2f target(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-                float stopThreshold = 5.0f;
+                float stopThreshold = 50.0f;
                 float distanceToTarget = std::sqrt(std::pow(target.x - position.position.x, 2) +
                     std::pow(target.y - position.position.y, 2));
 

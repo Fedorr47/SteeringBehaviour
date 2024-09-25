@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <entt/entt.hpp>
+#include <ThirdParty/entt/entt.hpp>
 #include "Systems/MovementSystem.h"
 #include "Systems/RenderSystem.h"
 #include "Systems/InputSystem.h"

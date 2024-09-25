@@ -8,12 +8,13 @@ class Game
 {
 public:
     Game();
+    ~Game();
     void run();
 
 private:
     void processEvents();
-    void update(float deltaTime);
-    void render();
+    void update(sf::Time deltaTime);
+    void render(sf::Time deltaTime);
 
     Window window;
     GameSettings settings;
@@ -23,4 +24,10 @@ private:
     sf::Clock clock;
 
     std::vector<entt::entity> active_entity;
+
+    bool limitFPS;
+    unsigned int maxFPS;
+
+    float currentFPS = 60.0f;
+    float fps;
 };

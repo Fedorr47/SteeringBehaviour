@@ -1,23 +1,21 @@
 ﻿#include "Game/Game.h"
 #include "ThirdParty/entt/entt.hpp"
 #include "Player/Player.h"
-#include "Components/Components.h"
-#include "Systems/MovementSystem.h"
-#include "Systems/RenderSystem.h"
-#include "Systems/InputSystem.h"
 #include "ThirdParty/imgui/imgui-SFML.h"
 #include "ThirdParty/imgui/imgui.h"
 #include <iostream>
 
 const sf::Time TimePerFrame = sf::seconds(1.0f / 60.0f);
 
-Game::Game() : 
-    window("Steering Behaviour with EntityManager", { 800, 600 }),
-    settings{ 500.0f, 200.0f, *window.getRenderWindow(), true },
-    entityManager(settings, inputHandler)
+Game::Game() :
+    window("Steering Behaviour with EntityManager", { 800, 600 })
 {
-    active_entity.push_back(entityManager.createPlayer(false));
-    active_entity.push_back(entityManager.createNonPlayer());
+    settings = std::unique_ptr<GameSettings>(new GameSettings(500.0f, 200.0f, *window.getRenderWindow(), true, 60));
+    inputHandler = std::make_unique<GameInputHandler>();
+    entityManager = std::unique_ptr<EntityManager>(new EntityManager(*settings.get(), *inputHandler.get()));
+
+    active_entity.push_back(entityManager->createPlayer(false));
+    active_entity.push_back(entityManager->createNonPlayer());
 
     ImGui::SFML::Init(*window.getRenderWindow());
 }
@@ -62,10 +60,10 @@ void Game::processEvents() {
             window.close();
         }
         else if (event.type == sf::Event::LostFocus) {
-            entityManager.SetFocusState(false);
+            entityManager->SetFocusState(false);
         }
         else if (event.type == sf::Event::GainedFocus) {
-            entityManager.SetFocusState(true);
+            entityManager->SetFocusState(true);
         }
     }
 
@@ -73,13 +71,13 @@ void Game::processEvents() {
 }
 
 void Game::update(sf::Time deltaTime) {
-    entityManager.update(deltaTime.asSeconds());
+    entityManager->update(deltaTime.asSeconds());
 }
 
 void Game::render(sf::Time deltaTime) {
     window.beginDraw();
 
-    entityManager.render(*window.getRenderWindow());
+    entityManager->render(*window.getRenderWindow());
     /***/
     ImGui::Begin("Debug Info");
     ImGui::Text("FPS: %.1f", currentFPS);

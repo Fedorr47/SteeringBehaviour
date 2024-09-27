@@ -1,9 +1,9 @@
 #pragma once
-#include <ThirdParty/entt/entt.hpp>
+#include "BaseSystem.h"
 #include <SFML/Graphics.hpp>
 #include "Components/Components.h"
 
-class RenderSystem
+class RenderSystem : public BaseSystem
 {
 public:
     void render(entt::registry& registry, sf::RenderWindow& window)
@@ -19,4 +19,7 @@ public:
             window.draw(shape.shape);
         }
     }
+
+    virtual void update(entt::registry& registry, float deltaTime) override
+    {}
 };

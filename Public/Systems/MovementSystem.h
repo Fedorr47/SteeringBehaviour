@@ -1,15 +1,15 @@
 #pragma once
-#include <ThirdParty/entt/entt.hpp>
+#include "BaseSystem.h"
 #include "Components/Components.h"
 
-class MovementSystem
+class MovementSystem : public BaseSystem
 {
 private:
     sf::Vector2u windowSize;
 public:
     MovementSystem(const sf::Vector2u& windowSize) : windowSize(windowSize) {}
 
-    void update(entt::registry& registry, float deltaTime)
+    virtual void update(entt::registry& registry, float deltaTime) override
     {
         // TODO: add real size of an object aginst 50
         auto view = registry.view<PositionComponent, VelocityComponent, MassComponent>();
@@ -18,7 +18,7 @@ public:
             auto& velocity = view.get<VelocityComponent>(entity);
             auto& mass = view.get<MassComponent>(entity);
 
-            position.position += (velocity.velocity * (velocity.speed / mass.mass)) * deltaTime;
+            position.position += (velocity.val * (velocity.speed / mass.mass)) * deltaTime;
 
             if (position.position.x < 0) {
                 position.position.x = 0;
@@ -33,6 +33,7 @@ public:
             else if (position.position.y + 50 > windowSize.y) {
                 position.position.y = windowSize.y - 50;
             }
+            
         }
     }
 };

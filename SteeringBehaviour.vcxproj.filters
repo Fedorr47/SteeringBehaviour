@@ -60,6 +60,9 @@
     <ClCompile Include="Private\ThirdParty\imgui\imgui-SFML.cpp">
       <Filter>Source Files\ThirdParty</Filter>
     </ClCompile>
+    <ClCompile Include="Private\Utils\Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\Game\Game.h">
@@ -95,14 +98,20 @@
     <ClInclude Include="Public\Systems\RenderSystem.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Public\Systems\PositionSystem.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Public\ThirdParty\imgui\imgui.h">
       <Filter>Header Files\ThirdParty</Filter>
     </ClInclude>
     <ClInclude Include="Public\ThirdParty\imgui\imgui-SFML.h">
       <Filter>Header Files\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Systems\BehaviourSystem.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Systems\BaseSystem.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Utils\Utils.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

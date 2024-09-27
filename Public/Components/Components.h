@@ -31,7 +31,6 @@ struct MassComponent {
 struct ControlComponent {
     bool useMouseControl;
     bool autoSwitch;
-
 };
 
 struct FocusComponent
@@ -46,13 +45,9 @@ enum class MoveBehaviourType : char
     NONE
 };
 
-struct BehaviourComponent
-{
-    MoveBehaviourType type = MoveBehaviourType::Seek;
-};
-
 struct FollowComponent
 {
+    MoveBehaviourType type = MoveBehaviourType::Seek;
     sf::Vector2f endPos;
 };
 

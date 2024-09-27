@@ -8,7 +8,7 @@ EntityManager::EntityManager(const GameSettings& settings, const InputHandler& i
 {
     Systems.emplace("MovementSystem", std::unique_ptr<MovementSystem>(new MovementSystem(settings.window.getSize())));
     Systems.emplace("InputSystem", std::unique_ptr<InputSystem>(new InputSystem(settings.maxForce, settings.maxSpeed, settings.window, inputHandler)));
-    Systems.emplace("BehaviourSystem", std::make_unique<BehaviourSystem>());
+    Systems.emplace("FollowSystem", std::make_unique<FollowSystem>());
     RenderSys = std::make_unique<RenderSystem>();
 }
 
@@ -29,8 +29,7 @@ entt::entity EntityManager::createPlayer(bool useMouseControl /*= false*/)
 
     //DEBUG
     registry.emplace<ControlComponent>(player, useMouseControl, true); // TODO - transfrom to follow component
-    registry.emplace<FollowComponent>(player, sf::Vector2f(0.0f,0.0f));
-    registry.emplace<BehaviourComponent>(player);
+    registry.emplace<FollowComponent>(player, MoveBehaviourType::Flee, sf::Vector2f(0.0f,0.0f));
     // END DEBUG
 
     return player;

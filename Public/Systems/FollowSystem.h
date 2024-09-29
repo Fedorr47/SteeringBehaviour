@@ -13,14 +13,13 @@ class FollowSystem : public BaseSystem {
 public:
     virtual void update(entt::registry& registry, float deltaTime) override
     {
-        auto view = registry.view<PositionComponent, VelocityComponent, ForceComponent, ChasingComponent>();
+        auto view = registry.view<PositionComponent, VelocityComponent, ChasingComponent>();
         for (auto entity : view) {
             auto& position = view.get<PositionComponent>(entity);
             ChasingComponent& chaising = registry.get<ChasingComponent>(entity);
             auto& target_position = registry.get<PositionComponent>(chaising.object);
 
-            VelocityComponent& velocity = view.get<VelocityComponent>(entity);
-            auto& force = view.get<ForceComponent>(entity);            
+            VelocityComponent& velocity = view.get<VelocityComponent>(entity);          
 
             auto desired_velocity = target_position.position - position.position;
             float distance = getLength(desired_velocity);

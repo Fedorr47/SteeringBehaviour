@@ -8,7 +8,7 @@ struct PositionComponent
 
 struct VelocityComponent
 {
-    sf::Vector2f val;
+    sf::Vector2f velocity;
     float speed;
     float MaxSpeed;
 };
@@ -45,14 +45,9 @@ enum class MoveBehaviourType : char
     NONE
 };
 
-struct FollowComponent
+struct ChaisingComponent
 {
     MoveBehaviourType type = MoveBehaviourType::Seek;
-    sf::Vector2f endPos;
-};
-
-struct PathComponent
-{
-    sf::Vector2f startPoint;
-    sf::Vector2f endPoint;
+    entt::entity object;
+    int velocity_multiplier{1};
 };

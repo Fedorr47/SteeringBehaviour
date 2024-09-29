@@ -104,7 +104,7 @@
     <ClInclude Include="Public\ThirdParty\imgui\imgui-SFML.h">
       <Filter>Header Files\ThirdParty</Filter>
     </ClInclude>
-    <ClInclude Include="Public\Systems\BehaviourSystem.h">
+    <ClInclude Include="Public\Systems\FollowSystem.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Public\Systems\BaseSystem.h">

@@ -1,9 +1,12 @@
 ﻿#include "Game/Game.h"
+#include <iostream>
+
+#include "Components/Components.h"
 #include "ThirdParty/entt/entt.hpp"
 #include "Player/Player.h"
 #include "ThirdParty/imgui/imgui-SFML.h"
 #include "ThirdParty/imgui/imgui.h"
-#include <iostream>
+
 
 const sf::Time TimePerFrame = sf::seconds(1.0f / 60.0f);
 
@@ -14,8 +17,18 @@ Game::Game() :
     inputHandler = std::make_unique<GameInputHandler>();
     entityManager = std::unique_ptr<EntityManager>(new EntityManager(*settings.get(), *inputHandler.get()));
 
-    active_entity.push_back(entityManager->createPlayer(false));
-    active_entity.push_back(entityManager->createNonPlayer());
+    // TODO: Create separate class to manage objects (builder pattern + reading from a file)
+    int enemies_count = 1;
+    auto player = entityManager->createPlayer(false);
+    active_entity.push_back(player);
+
+    for (int i = 0; i < enemies_count; ++i)
+    {
+        auto enemy = entityManager->createNonPlayer();
+        active_entity.push_back(enemy);
+        entityManager->getRegistry().emplace<ChaisingComponent>(enemy, MoveBehaviourType::Flee, player);
+    }
+    // END TODO
 
     ImGui::SFML::Init(*window.getRenderWindow());
 }

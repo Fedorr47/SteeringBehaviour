@@ -19,14 +19,13 @@ public:
 
     virtual void update(entt::registry& registry, float deltaTime) override
     {
-        auto view = registry.view<VelocityComponent, ControlComponent, FollowComponent>();
+        auto view = registry.view<VelocityComponent, ControlComponent>();
         for (auto entity : view) {
             auto& velocity = view.get<VelocityComponent>(entity);
             auto& control = view.get<ControlComponent>(entity);
-            auto& follow = view.get<FollowComponent>(entity);
 
             if (!IsInFocus) {
-                velocity.val = { 0.0f, 0.0f };
+                velocity.velocity = { 0.0f, 0.0f };
                 continue;
             }
   
@@ -40,7 +39,6 @@ public:
                     if (mousePos != lastMousePosition) {
                         control.useMouseControl = true;
                         sf::Vector2f target(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-                        follow.endPos = target;
                     }
                 }
             }
@@ -48,18 +46,18 @@ public:
             // TODO: moove to control system
             if (!control.useMouseControl) {
                 if (inputHandler.isKeyPressed(sf::Keyboard::Left))
-                    velocity.val.x = -velocity.speed;
+                    velocity.velocity.x = -velocity.speed;
                 else if (inputHandler.isKeyPressed(sf::Keyboard::Right))
-                    velocity.val.x = velocity.speed;
+                    velocity.velocity.x = velocity.speed;
                 else
-                    velocity.val.x = 0;
+                    velocity.velocity.x = 0;
 
                 if (inputHandler.isKeyPressed(sf::Keyboard::Up))
-                    velocity.val.y = -velocity.speed;
+                    velocity.velocity.y = -velocity.speed;
                 else if (inputHandler.isKeyPressed(sf::Keyboard::Down))
-                    velocity.val.y = velocity.speed;
+                    velocity.velocity.y = velocity.speed;
                 else
-                    velocity.val.y = 0;
+                    velocity.velocity.y = 0;
             }
         }
     }

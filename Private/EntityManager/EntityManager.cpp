@@ -2,7 +2,7 @@
 #include "EntityManager/EntityManager.h"
 #include "Systems/MovementSystem.h"
 #include "Systems/InputSystem.h"
-#include "Systems/BehaviourSystem.h"
+#include "Systems/FollowSystem.h"
 
 EntityManager::EntityManager(const GameSettings& settings, const InputHandler& inputHandler)
 {
@@ -20,34 +20,29 @@ entt::entity EntityManager::createPlayer(bool useMouseControl /*= false*/)
     registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
     registry.emplace<MassComponent>(player, 100.0f);
 
-    sf::RectangleShape shape(sf::Vector2f(50.0f, 50.0f));
+    sf::RectangleShape shape(sf::Vector2f(10.0f, 10.0f));
     shape.setFillColor(sf::Color::Green);
     registry.emplace<ShapeComponent>(player, shape);
-
-    
     registry.emplace<ForceComponent>(player, 200.0f, 500.0f);
-
-    //DEBUG
-    registry.emplace<ControlComponent>(player, useMouseControl, true); // TODO - transfrom to follow component
-    registry.emplace<FollowComponent>(player, MoveBehaviourType::Flee, sf::Vector2f(0.0f,0.0f));
-    // END DEBUG
+    registry.emplace<ControlComponent>(player, useMouseControl, false);
 
     return player;
 }
 
 entt::entity EntityManager::createNonPlayer()
 {
-    auto enemy = registry.create();
+    auto nonPlayerEntity = registry.create();
 
-    registry.emplace<PositionComponent>(enemy, sf::Vector2f(200.0f, 200.0f));
-    registry.emplace<VelocityComponent>(enemy, sf::Vector2f(0.0f, 0.0f), 100.0f, 100.0f);
-    registry.emplace<MassComponent>(enemy, 2.0f);
+    registry.emplace<PositionComponent>(nonPlayerEntity, sf::Vector2f(200.0f, 200.0f));
+    registry.emplace<VelocityComponent>(nonPlayerEntity, sf::Vector2f(0.0f, 0.0f), 100.0f, 100.0f);
+    registry.emplace<MassComponent>(nonPlayerEntity, 150.0f);
 
     sf::RectangleShape shape(sf::Vector2f(40.0f, 40.0f));
     shape.setFillColor(sf::Color::Red);
-    registry.emplace<ShapeComponent>(enemy, shape);
+    registry.emplace<ShapeComponent>(nonPlayerEntity, shape);
+    registry.emplace<ForceComponent>(nonPlayerEntity, 200.0f, 500.0f);
 
-    return enemy;
+    return nonPlayerEntity;
 }
 
 void EntityManager::update(float deltaTime)

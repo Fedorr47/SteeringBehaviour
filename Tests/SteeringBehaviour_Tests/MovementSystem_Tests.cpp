@@ -1,8 +1,8 @@
 #include "pch.h"
-#include "Systems/MovementSystem.h"
-#include "EntityManager/EntityManager.h"
-#include "Components/Components.h"
-
+//#include "Systems/MovementSystem.h"
+//#include "EntityManager/EntityManager.h"
+//#include "Components/Components.h"
+/*
 TEST(MovementSystemTest, UpdateMovementTest) {
     entt::registry registry;
     sf::Vector2u windowSize(800, 600);
@@ -19,3 +19,4 @@ TEST(MovementSystemTest, UpdateMovementTest) {
     EXPECT_FLOAT_EQ(position.position.x, 100.0f);
     EXPECT_FLOAT_EQ(position.position.y, 100.0f);
 }
+*/

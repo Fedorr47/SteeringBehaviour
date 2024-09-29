@@ -7,12 +7,14 @@ float getLength(const sf::Vector2f& vec)
     return std::sqrt((vec.x * vec.x) + (vec.y * vec.y));
 }
 
-sf::Vector2f truncate(const sf::Vector2f& vec, float max) {
+sf::Vector2f truncate(const sf::Vector2f& vec, float max) 
+{
+    sf::Vector2f ret_vec = vec;
     float length = getLength(vec);
-    if (length > max) {
-        return vec * (max / length);
-    }
-    return vec;
+    float i = max / length;
+    i = i < 1.0f ? i : 1.0f;
+    ret_vec *= i;
+    return ret_vec;
 }
 
 sf::Vector2f normalize(const sf::Vector2f& source)

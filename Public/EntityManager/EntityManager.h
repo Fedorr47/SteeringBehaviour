@@ -8,7 +8,7 @@
 class EntityManager
 {
 public:
-    EntityManager(const GameSettings& settings, const InputHandler& inputHandler);
+    EntityManager(const GameSettings& settings, const InputHandler& inputHandler, std::shared_ptr<DebugInfo> debugInfo);
 
     entt::entity createPlayer(bool useMouseControl = false);
     entt::entity createNonPlayer();

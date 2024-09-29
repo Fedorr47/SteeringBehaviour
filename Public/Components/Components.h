@@ -45,9 +45,10 @@ enum class MoveBehaviourType : char
     NONE
 };
 
-struct ChaisingComponent
+struct ChasingComponent
 {
     MoveBehaviourType type = MoveBehaviourType::Seek;
     entt::entity object;
-    int velocity_multiplier{1};
+    float slowingRadius{ 0 };
+    int velocity_multiplier{1}; 
 };

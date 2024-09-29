@@ -1,31 +1,49 @@
 ﻿#pragma once
 #include "BaseSystem.h"
 #include "Utils/Utils.h"
+#include "Utils/DebugInfo.h"
 #include "Components/Components.h"
 
-void ManageFollow(VelocityComponent& velocity, ChaisingComponent& chaisingComp);
+#include "ThirdParty/imgui/imgui-SFML.h"
+#include "ThirdParty/imgui/imgui.h"
+
+void ManageFollow(VelocityComponent& velocity, ChasingComponent& chaisingComp);
 
 class FollowSystem : public BaseSystem {
 public:
     virtual void update(entt::registry& registry, float deltaTime) override
     {
-        auto view = registry.view<PositionComponent, VelocityComponent, ForceComponent, ChaisingComponent>();
+        auto view = registry.view<PositionComponent, VelocityComponent, ForceComponent, ChasingComponent>();
         for (auto entity : view) {
             auto& position = view.get<PositionComponent>(entity);
-            ChaisingComponent& chaising = registry.get<ChaisingComponent>(entity);
+            ChasingComponent& chaising = registry.get<ChasingComponent>(entity);
             auto& target_position = registry.get<PositionComponent>(chaising.object);
 
             VelocityComponent& velocity = view.get<VelocityComponent>(entity);
             auto& force = view.get<ForceComponent>(entity);            
 
-            float distance = getLength(target_position.position - position.position);
-            if (distance > 5.0f) {
-                auto desired_velocity = normalize(target_position.position - position.position) * velocity.MaxSpeed;
-                auto steering = truncate(desired_velocity - velocity.velocity, force.MaxForce);
-                velocity.velocity += steering;
-                ManageFollow(velocity, chaising);
+            auto desired_velocity = target_position.position - position.position;
+            float distance = getLength(desired_velocity);
+
+            if (distance < chaising.slowingRadius) {
+                desired_velocity = normalize(desired_velocity) * velocity.MaxSpeed * (distance / chaising.slowingRadius);
             }
-        }
+            else {
+                desired_velocity = normalize(desired_velocity) * velocity.MaxSpeed;
+            }
+
+            auto steering = desired_velocity - velocity.velocity;
+            velocity.velocity += steering;
+
+            ManageFollow(velocity, chaising);
+
+            FollowDebugInfo info;
+            info.entityID = static_cast<int>(entity);
+            info.position = position.position;
+            info.velocity = velocity.velocity;
+            info.distanceToTarget = distance;
+            debugInfo->chasingEntities[static_cast<int>(entity)] = info;
+        };
     }
 };
 

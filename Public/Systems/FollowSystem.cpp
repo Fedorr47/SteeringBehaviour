@@ -1,6 +1,6 @@
 #include "FollowSystem.h"
 
-void ManageFollow(VelocityComponent& velocity, ChaisingComponent& chaisingComp)
+void ManageFollow(VelocityComponent& velocity, ChasingComponent& chaisingComp)
 {
 	switch (chaisingComp.type)
 	{

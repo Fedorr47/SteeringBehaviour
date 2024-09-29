@@ -18,7 +18,7 @@ public:
             auto& position = view.get<PositionComponent>(entity);
             auto& velocity = view.get<VelocityComponent>(entity);
             auto& mass = view.get<MassComponent>(entity);
-          
+            
             position.position += truncate(velocity.velocity + (velocity.velocity / mass.mass), velocity.MaxSpeed) * deltaTime;
 
             if (position.position.x < 0) {

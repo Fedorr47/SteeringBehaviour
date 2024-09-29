@@ -238,6 +238,7 @@
     <ClInclude Include="Public\Systems\RenderSystem.h" />
     <ClInclude Include="Public\ThirdParty\imgui\imgui-SFML.h" />
     <ClInclude Include="Public\ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="Public\Utils\DebugInfo.h" />
     <ClInclude Include="Public\Utils\Utils.h" />
     <ClInclude Include="Public\Window\Window.h" />
   </ItemGroup>

@@ -1,15 +1,20 @@
 ﻿#include <memory>
+#include "Utils/DebugInfo.h"
 #include "EntityManager/EntityManager.h"
 #include "Systems/MovementSystem.h"
 #include "Systems/InputSystem.h"
 #include "Systems/FollowSystem.h"
 
-EntityManager::EntityManager(const GameSettings& settings, const InputHandler& inputHandler)
+EntityManager::EntityManager(const GameSettings& settings, const InputHandler& inputHandler, std::shared_ptr<DebugInfo> debugInfo)
 {
     Systems.emplace("MovementSystem", std::unique_ptr<MovementSystem>(new MovementSystem(settings.window.getSize())));
     Systems.emplace("InputSystem", std::unique_ptr<InputSystem>(new InputSystem(settings.maxForce, settings.maxSpeed, settings.window, inputHandler)));
     Systems.emplace("FollowSystem", std::make_unique<FollowSystem>());
     RenderSys = std::make_unique<RenderSystem>();
+    for (auto& [_, system] : Systems)
+    {
+        system->debugInfo = debugInfo->getptr();
+    }
 }
 
 entt::entity EntityManager::createPlayer(bool useMouseControl /*= false*/)

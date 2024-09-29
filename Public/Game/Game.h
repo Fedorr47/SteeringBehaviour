@@ -4,7 +4,8 @@
 #include "Window/Window.h"
 #include "EntityManager/EntityManager.h"
 #include "Settings/GameSettings.h"
-#include <Systems/RealInputHandler.h>
+#include "Utils/DebugInfo.h"
+#include "Systems/RealInputHandler.h"
 
 class Game
 {
@@ -22,6 +23,8 @@ private:
     std::unique_ptr<GameSettings> settings;
     std::unique_ptr<EntityManager> entityManager;
     std::unique_ptr<GameInputHandler> inputHandler;
+
+    std::shared_ptr<DebugInfo> debugInfo;
 
     sf::Clock clock;
 

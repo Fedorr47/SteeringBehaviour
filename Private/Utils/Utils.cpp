@@ -2,8 +2,13 @@
 
 #include <cmath>
 
+float getLength(const sf::Vector2f& vec)
+{
+    return std::sqrt((vec.x * vec.x) + (vec.y * vec.y));
+}
+
 sf::Vector2f truncate(const sf::Vector2f& vec, float max) {
-    float length = std::sqrt(vec.x * vec.x + vec.y * vec.y);
+    float length = getLength(vec);
     if (length > max) {
         return vec * (max / length);
     }
@@ -12,7 +17,7 @@ sf::Vector2f truncate(const sf::Vector2f& vec, float max) {
 
 sf::Vector2f normalize(const sf::Vector2f& source)
 {
-    float length = std::sqrt((source.x * source.x) + (source.y * source.y));
+    float length = getLength(source);
     if (length != 0)
         return sf::Vector2f(source.x / length, source.y / length);
     else

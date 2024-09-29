@@ -26,7 +26,7 @@ Game::Game() :
     {
         auto enemy = entityManager->createNonPlayer();
         active_entity.push_back(enemy);
-        entityManager->getRegistry().emplace<ChaisingComponent>(enemy, MoveBehaviourType::Flee, player);
+        entityManager->getRegistry().emplace<ChaisingComponent>(enemy, MoveBehaviourType::Seek, player);
     }
     // END TODO
 
@@ -46,12 +46,12 @@ void Game::run()
     while (window.isOpen()) {
         processEvents();
 
-        deltaTime += clock.restart();
-        fps = 1.0f / deltaTime.asSeconds();
+        auto update_value = clock.restart();
+        deltaTime += update_value;
 
         if (fpsUpdateClock.getElapsedTime().asSeconds() >= 0.5) {
-            currentFPS = fps;
-            fpsUpdateClock.restart(); 
+            currentFPS = 1.0f / update_value.asSeconds();
+            fpsUpdateClock.restart();
         }
 
         while (deltaTime > TimePerFrame) {
@@ -60,7 +60,6 @@ void Game::run()
         }
 
         ImGui::SFML::Update(*window.getRenderWindow(), deltaTime);
-       
         render(deltaTime);
     }
 }

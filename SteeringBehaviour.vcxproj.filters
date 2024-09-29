@@ -63,6 +63,9 @@
     <ClCompile Include="Private\Utils\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Public\Systems\FollowSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\Game\Game.h">

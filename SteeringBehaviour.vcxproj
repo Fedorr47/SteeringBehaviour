@@ -154,8 +154,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(SolutionDir)Public</AdditionalIncludeDirectories>
       <ObjectFileName>$(ProjectDir)obj\$(Configuration)\</ObjectFileName>
       <GenerateSourceDependencies>true</GenerateSourceDependencies>
@@ -221,6 +221,7 @@
     <ClCompile Include="Private\ThirdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Private\Utils\Utils.cpp" />
     <ClCompile Include="Private\Window\Window.cpp" />
+    <ClCompile Include="Public\Systems\FollowSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\Components\Components.h" />

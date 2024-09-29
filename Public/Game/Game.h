@@ -28,5 +28,4 @@ private:
     std::vector<entt::entity> active_entity;
 
     float currentFPS = 60.0f;
-    float fps = 0.0f;
 };

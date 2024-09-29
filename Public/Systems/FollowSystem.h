@@ -1,7 +1,9 @@
-#pragma once
+﻿#pragma once
 #include "BaseSystem.h"
 #include "Utils/Utils.h"
 #include "Components/Components.h"
+
+void ManageFollow(VelocityComponent& velocity, ChaisingComponent& chaisingComp);
 
 class FollowSystem : public BaseSystem {
 public:
@@ -10,14 +12,19 @@ public:
         auto view = registry.view<PositionComponent, VelocityComponent, ForceComponent, ChaisingComponent>();
         for (auto entity : view) {
             auto& position = view.get<PositionComponent>(entity);
-            auto& chaising = registry.get<ChaisingComponent>(entity);
+            ChaisingComponent& chaising = registry.get<ChaisingComponent>(entity);
             auto& target_position = registry.get<PositionComponent>(chaising.object);
 
-            auto& velocity = view.get<VelocityComponent>(entity);
+            VelocityComponent& velocity = view.get<VelocityComponent>(entity);
             auto& force = view.get<ForceComponent>(entity);            
 
-            auto desired_velocity = normalize(target_position.position - position.position) * velocity.MaxSpeed;
-            velocity.velocity = truncate(desired_velocity - velocity.velocity, force.MaxForce);
+            float distance = getLength(target_position.position - position.position);
+            if (distance > 5.0f) {
+                auto desired_velocity = normalize(target_position.position - position.position) * velocity.MaxSpeed;
+                auto steering = truncate(desired_velocity - velocity.velocity, force.MaxForce);
+                velocity.velocity += steering;
+                ManageFollow(velocity, chaising);
+            }
         }
     }
 };

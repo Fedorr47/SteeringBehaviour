@@ -50,5 +50,4 @@ struct ChasingComponent
     MoveBehaviourType type = MoveBehaviourType::Seek;
     entt::entity object;
     float slowingRadius{ 0 };
-    int velocity_multiplier{1}; 
 };

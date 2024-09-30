@@ -7,7 +7,16 @@
 #include "ThirdParty/imgui/imgui-SFML.h"
 #include "ThirdParty/imgui/imgui.h"
 
-void ManageFollow(VelocityComponent& velocity, ChasingComponent& chaisingComp);
+struct ManageParams
+{
+    int entity_id{ 0 };
+    entt::registry* reg{ nullptr };
+    VelocityComponent* velComp{nullptr};
+    PositionComponent* posComp{ nullptr };
+    ChasingComponent* chasComp{ nullptr };
+    // debug info
+    float distance{ 0 };
+};
 
 class FollowSystem : public BaseSystem {
 public:
@@ -17,32 +26,22 @@ public:
         for (auto entity : view) {
             auto& position = view.get<PositionComponent>(entity);
             ChasingComponent& chaising = registry.get<ChasingComponent>(entity);
-            auto& target_position = registry.get<PositionComponent>(chaising.object);
-
             VelocityComponent& velocity = view.get<VelocityComponent>(entity);          
 
-            auto desired_velocity = target_position.position - position.position;
-            float distance = getLength(desired_velocity);
-
-            if (distance < chaising.slowingRadius) {
-                desired_velocity = normalize(desired_velocity) * velocity.MaxSpeed * (distance / chaising.slowingRadius);
-            }
-            else {
-                desired_velocity = normalize(desired_velocity) * velocity.MaxSpeed;
-            }
-
-            auto steering = desired_velocity - velocity.velocity;
-            velocity.velocity += steering;
-
-            ManageFollow(velocity, chaising);
-
-            FollowDebugInfo info;
-            info.entityID = static_cast<int>(entity);
-            info.position = position.position;
-            info.velocity = velocity.velocity;
-            info.distanceToTarget = distance;
-            debugInfo->chasingEntities[static_cast<int>(entity)] = info;
+            ManageParams params(
+                static_cast<int>(entity),
+                &registry,
+                &velocity,
+                &position,
+                &chaising
+            );
+            ManageFollow(params);
         };
     }
+
+    void ManageFollow(ManageParams& params);
+    void GetVelocity(ManageParams& params);
+    void Seek(ManageParams& params);
+    void Flee(ManageParams& params);
 };
 

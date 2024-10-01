@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+constexpr float Degree180 = 180.0f;
+
 float getLength(const sf::Vector2f& vec)
 {
     return std::sqrt((vec.x * vec.x) + (vec.y * vec.y));
@@ -24,4 +26,27 @@ sf::Vector2f normalize(const sf::Vector2f& source)
         return sf::Vector2f(source.x / length, source.y / length);
     else
         return source;
+}
+
+float toRadians(float angle)
+{
+    return static_cast<float>(angle * std::numbers::pi / Degree180);
+}
+
+float toDegrees(float radians)
+{
+    return static_cast<float>(radians * Degree180 / std::numbers::pi);
+}
+
+void setAngle(sf::Vector2f& vector, float angle)
+{
+    float radians = toRadians(angle);
+    float length = getLength(vector);
+    vector.x = std::cos(radians) * length;
+    vector.y = std::sin(radians) * length;
+}
+
+float computeTargetAngle(const sf::Vector2f& vector)
+{
+    return std::atan2(vector.y, vector.x) * Degree180 / std::numbers::pi;
 }

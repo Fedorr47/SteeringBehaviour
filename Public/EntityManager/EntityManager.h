@@ -10,8 +10,9 @@ class EntityManager
 public:
     EntityManager(const GameSettings& settings, const InputHandler& inputHandler, std::shared_ptr<DebugInfo> debugInfo);
 
-    entt::entity createPlayer(bool useMouseControl = false);
-    entt::entity createNonPlayer();
+    entt::entity createEntity();
+
+    entt::entity createStub();
 
     void update(float deltaTime);
     void render(sf::RenderWindow& window);

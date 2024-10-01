@@ -6,6 +6,7 @@ struct FollowDebugInfo {
     int entityID;
     sf::Vector2f position;
     sf::Vector2f velocity;
+    sf::Vector2f targetPos;
     float distanceToTarget{ 0.0f };
 };
 

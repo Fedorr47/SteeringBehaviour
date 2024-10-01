@@ -42,7 +42,7 @@ public:
                     }
                 }
             }
-
+            
             // TODO: moove to control system
             if (!control.useMouseControl) {
                 if (inputHandler.isKeyPressed(sf::Keyboard::Left))

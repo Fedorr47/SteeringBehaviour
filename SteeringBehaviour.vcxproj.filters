@@ -22,20 +22,35 @@
     <Filter Include="Source Files\ThirdParty">
       <UniqueIdentifier>{35cadd43-7fbb-4972-a95f-1d4c0977b1e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Systems">
+      <UniqueIdentifier>{ac278309-e734-4b44-931c-d7d43467196f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{06244d3a-43d4-4ae6-ac44-21a075fad0ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{74321728-004e-4f89-b78b-cf790bec3b7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Debug">
+      <UniqueIdentifier>{461a0384-b43f-4b8d-ba59-94c0e323c746}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EntityManager">
+      <UniqueIdentifier>{017bc623-6cf5-4bc6-bf00-aa63011f5267}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Inputs">
+      <UniqueIdentifier>{54a1aba4-54a8-43cc-b110-f2dd1ee71983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EntityManager">
+      <UniqueIdentifier>{491be777-46ad-436f-bd4a-4fa1efec0d13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{c9512b0d-d7ed-42f5-a7a1-cb9495eeccd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{06601408-bf85-455a-b310-962093dc1835}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Private\Game\Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Private\Player\Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Private\Window\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Private\EntityManager\EntityManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EntryPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,38 +75,26 @@
     <ClCompile Include="Private\ThirdParty\imgui\imgui-SFML.cpp">
       <Filter>Source Files\ThirdParty</Filter>
     </ClCompile>
-    <ClCompile Include="Private\Utils\Utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Public\Systems\FollowSystem.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Game\Game.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\EntityManager\EntityManager.cpp">
+      <Filter>Source Files\EntityManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Utils\Utils.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Window\Window.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\Game\ObjectsManager.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Public\Game\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\Player\Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\Window\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\Components\Components.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\EntityManager\EntityManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\Settings\GameSettings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\Systems\InputHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Public\Systems\RealInputHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Public\Systems\MovementSystem.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
@@ -113,11 +116,38 @@
     <ClInclude Include="Public\Systems\BaseSystem.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Public\Utils\Utils.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Public\Game\Game.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Settings\GameSettings.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Public\Utils\DebugInfo.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\EntityManager\EntityManager.h">
+      <Filter>Header Files\EntityManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Components\Components.h">
+      <Filter>Header Files\EntityManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Systems\InputHandler.h">
+      <Filter>Header Files\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Utils\Utils.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Window\Window.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Systems\RealInputHandler.h">
+      <Filter>Header Files\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Systems\ShapeSystem.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Game\ObjectsManager.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

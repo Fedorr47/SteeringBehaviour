@@ -6,6 +6,7 @@
 
 #include "ThirdParty/imgui/imgui-SFML.h"
 #include "ThirdParty/imgui/imgui.h"
+#include <random>
 
 struct ManageParams
 {
@@ -41,7 +42,11 @@ public:
 
     void ManageFollow(ManageParams& params);
     void GetVelocity(ManageParams& params);
+    void Wander(ManageParams& params);
     void Seek(ManageParams& params);
     void Flee(ManageParams& params);
+
+private:
+    std::random_device dev;
 };
 

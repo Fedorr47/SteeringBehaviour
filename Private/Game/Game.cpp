@@ -1,8 +1,11 @@
 ﻿#include "Game/Game.h"
 #include <iostream>
 #include "Components/Components.h"
-#include "ThirdParty/entt/entt.hpp"
-#include "Player/Player.h"
+#include "Game/ObjectsManager.h"
+#include "EntityManager/EntityManager.h"
+#include "Settings/GameSettings.h"
+#include "Systems/RealInputHandler.h"
+#include "Utils/DebugInfo.h"
 #include "ThirdParty/imgui/imgui-SFML.h"
 #include "ThirdParty/imgui/imgui.h"
 
@@ -17,19 +20,9 @@ Game::Game() :
     settings = std::unique_ptr<GameSettings>(new GameSettings(500.0f, 200.0f, *window.getRenderWindow(), true, 60));
     inputHandler = std::make_unique<GameInputHandler>();
     entityManager = std::unique_ptr<EntityManager>(new EntityManager(*settings.get(), *inputHandler.get(), debugInfo));
+    objectManager = std::make_unique<ObjectManager>();
 
-    // TODO(block): Create separate class to manage objects (builder pattern + reading from a file)
-    int enemies_count = 1;
-    auto player = entityManager->createPlayer(false);
-    active_entity.push_back(player);
-
-    for (int i = 0; i < enemies_count; ++i)
-    {
-        auto enemy = entityManager->createNonPlayer();
-        active_entity.push_back(enemy);
-        entityManager->getRegistry().emplace<ChasingComponent>(enemy, MoveBehaviourType::Seek, player, 45.0f); // TODO: add radius by object size
-    }
-    // END TODO(block)
+    objectManager->initObjects(*entityManager, active_entity);
 
     ImGui::SFML::Init(*window.getRenderWindow());
 }
@@ -98,10 +91,11 @@ void Game::render(sf::Time deltaTime) {
 
     ImGui::Text("Chasing Entities:");
     for (const auto& [entity, FollowData] : debugInfo->chasingEntities) {
-        ImGui::BulletText("Entity %d: \n\tPosition(%.2f, %.2f) \n\tVelocity(%.2f, %.2f) \n\tDistance to target(%.1f)",
+        ImGui::BulletText("Entity %d: \n\tPosition(%.2f, %.2f) \n\tVelocity(%.2f, %.2f) \n\tTarget Position (%.2f, %.2f) \n\tDistance to target(%.1f)",
             entity,
             FollowData.position.x, FollowData.position.y,
             FollowData.velocity.x, FollowData.velocity.y,
+            FollowData.targetPos.x, FollowData.targetPos.y,
             FollowData.distanceToTarget);
     }
 

@@ -2,10 +2,14 @@
 #include <memory>
 
 #include "Window/Window.h"
-#include "EntityManager/EntityManager.h"
-#include "Settings/GameSettings.h"
-#include "Utils/DebugInfo.h"
-#include "Systems/RealInputHandler.h"
+#include "ThirdParty/entt/entt.hpp"
+
+
+struct GameSettings;
+class EntityManager;
+class GameInputHandler;
+class ObjectManager;
+class DebugInfo;
 
 class Game
 {
@@ -23,6 +27,7 @@ private:
     std::unique_ptr<GameSettings> settings;
     std::unique_ptr<EntityManager> entityManager;
     std::unique_ptr<GameInputHandler> inputHandler;
+    std::unique_ptr<ObjectManager> objectManager;
 
     std::shared_ptr<DebugInfo> debugInfo;
 

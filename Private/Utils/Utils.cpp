@@ -48,5 +48,6 @@ void setAngle(sf::Vector2f& vector, float angle)
 
 float computeTargetAngle(const sf::Vector2f& vector)
 {
+
     return std::atan2(vector.y, vector.x) * Degree180 / std::numbers::pi;
 }

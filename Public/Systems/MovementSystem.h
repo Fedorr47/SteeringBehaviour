@@ -20,6 +20,7 @@ public:
             auto& mass = view.get<MassComponent>(entity);
             
             position.position += truncate(velocity.velocity + (velocity.velocity / mass.mass), velocity.MaxSpeed) * deltaTime;
+            position.angle = computeTargetAngle(velocity.velocity) + 90.0f;
 
             if (position.position.x < 0) {
                 position.position.x = 0;

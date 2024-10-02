@@ -62,8 +62,8 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 				45.0f,
 				WanderRanges(100.0f, 100.0f),
 				500.0f,
-				25.0f,
-				45.0f));
+				10.0f,
+				180.0f));
 
 		entities.push_back(Enemy);
 	}	

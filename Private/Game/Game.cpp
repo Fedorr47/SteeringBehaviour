@@ -91,12 +91,13 @@ void Game::render(sf::Time deltaTime) {
 
     ImGui::Text("Chasing Entities:");
     for (const auto& [entity, FollowData] : debugInfo->chasingEntities) {
-        ImGui::BulletText("Entity %d: \n\tPosition(%.2f, %.2f) \n\tVelocity(%.2f, %.2f) \n\tTarget Position (%.2f, %.2f) \n\tDistance to target(%.1f)",
+        ImGui::BulletText("Entity %d: \n\tPosition(%.2f, %.2f) \n\tVelocity(%.2f, %.2f) \n\tTarget Position (%.2f, %.2f) \n\tDistance to target(%.1f) \n\tAngle(%.1f)",
             entity,
             FollowData.position.x, FollowData.position.y,
             FollowData.velocity.x, FollowData.velocity.y,
             FollowData.targetPos.x, FollowData.targetPos.y,
-            FollowData.distanceToTarget);
+            FollowData.distanceToTarget,
+            FollowData.wanderAngle);
     }
 
     ImGui::End();

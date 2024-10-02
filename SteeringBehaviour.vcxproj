@@ -214,6 +214,7 @@
     <ClCompile Include="Private\EntityManager\EntityManager.cpp" />
     <ClCompile Include="Private\Game\Game.cpp" />
     <ClCompile Include="Private\Game\ObjectsManager.cpp" />
+    <ClCompile Include="Private\Systems\FollowSystem.cpp" />
     <ClCompile Include="Private\ThirdParty\imgui\imgui-SFML.cpp" />
     <ClCompile Include="Private\ThirdParty\imgui\imgui.cpp" />
     <ClCompile Include="Private\ThirdParty\imgui\imgui_draw.cpp" />
@@ -221,7 +222,6 @@
     <ClCompile Include="Private\ThirdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Private\Utils\Utils.cpp" />
     <ClCompile Include="Private\Window\Window.cpp" />
-    <ClCompile Include="Public\Systems\FollowSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\Components\Components.h" />

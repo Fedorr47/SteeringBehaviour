@@ -1,4 +1,4 @@
-﻿#include "FollowSystem.h"
+﻿#include "Systems/FollowSystem.h"
 
 void FollowSystem::ManageFollow(ManageParams& params)
 {
@@ -14,7 +14,7 @@ void FollowSystem::ManageFollow(ManageParams& params)
 		break;
 	case MoveBehaviourType::Wander:
 		Wander(params);
-		info.targetPos = params.reg->get<PositionComponent>(params.chasComp->Behavior->object).position;
+		info.wanderAngle = static_cast<WanderBehavior*>(params.chasComp->Behavior)->wanderAngle;
 		break;
 	default:
 		break;
@@ -63,33 +63,26 @@ void FollowSystem::Wander(ManageParams& params)
 		if (now >= wanderBehaviour->nextDecisionTime)
 		{
 			wanderBehaviour->nextDecisionTime = now + wanderBehaviour->timeWaiting;
-
 			sf::Vector2f circleCenter = normalize(params.velComp->velocity) * wanderBehaviour->circleDistance;
-			sf::Vector2f displacement = sf::Vector2f(0.0f, -1.0f) * wanderBehaviour->circleDistance;
+
+			sf::Vector2f displacement(0, -1);
+			displacement *= wanderBehaviour->circleDistance;
 
 			setAngle(displacement, wanderBehaviour->wanderAngle);
 
-			std::uniform_int_distribution<> angDist(1, 5);
-			float new_angle = (angDist(gen) * wanderBehaviour->angleChange) - (wanderBehaviour->angleChange * 0.5f);
-
-			wanderBehaviour->wanderAngle += new_angle;
-
-			/*
-			if (wanderBehaviour->wanderAngle >= 360.0f) {
+			wanderBehaviour->wanderAngle += std::uniform_real_distribution<float>(-wanderBehaviour->angleChange / 2, wanderBehaviour->angleChange / 2)(gen);
+			wanderBehaviour->wanderAngle = fmod(wanderBehaviour->wanderAngle, 360.0f);
+			if (wanderBehaviour->wanderAngle > 180.0f) {
 				wanderBehaviour->wanderAngle -= 360.0f;
 			}
-			else if (wanderBehaviour->wanderAngle < 0.0f) {
+			else if (wanderBehaviour->wanderAngle < -180.0f) {
 				wanderBehaviour->wanderAngle += 360.0f;
-			}*/
+			}
 
-			targetPosition.position = (circleCenter + displacement);
+			sf::Vector2f wanderForce = circleCenter + displacement;
 
-			sf::Vector2f direction = targetPosition.position - params.posComp->position;
-			float angle = computeTargetAngle(direction);
-			angle += 90.0f;
-			params.posComp->angle = angle;
+			params.velComp->velocity = wanderForce;
 		}
-		GetVelocity(params);
 	}
 }
 

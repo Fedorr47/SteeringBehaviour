@@ -8,6 +8,7 @@ struct FollowDebugInfo {
     sf::Vector2f velocity;
     sf::Vector2f targetPos;
     float distanceToTarget{ 0.0f };
+    float wanderAngle{ 0.0f };
 };
 
 class DebugInfo : public std::enable_shared_from_this<DebugInfo> {

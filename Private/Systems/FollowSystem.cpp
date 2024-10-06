@@ -7,14 +7,22 @@ void FollowSystem::ManageFollow(ManageParams& params)
 	switch (params.chasComp->type)
 	{
 	case MoveBehaviourType::Seek:
+		params.targetPos = params.reg->get<PositionComponent>(params.chasComp->Behavior->object).position;
 		Seek(params);
 		break;
 	case MoveBehaviourType::Flee:
+		params.targetPos = params.reg->get<PositionComponent>(params.chasComp->Behavior->object).position;
 		Flee(params);
 		break;
 	case MoveBehaviourType::Wander:
 		Wander(params);
 		info.wanderAngle = static_cast<WanderBehavior*>(params.chasComp->Behavior)->wanderAngle;
+		break;
+	case MoveBehaviourType::Pursuit:
+		Pursuit(params);
+		break;
+	case MoveBehaviourType::Evade:
+		Evade(params);
 		break;
 	default:
 		break;
@@ -29,23 +37,6 @@ void FollowSystem::ManageFollow(ManageParams& params)
 
 void FollowSystem::GetVelocity(ManageParams& params)
 {
-	auto& target_position = params.reg->get<PositionComponent>(params.chasComp->Behavior->object);
-	auto desired_velocity = target_position.position - params.posComp->position;
-	float distance = getLength(desired_velocity);
-	float radius = params.chasComp->Behavior->slowingRadius;
-	float max_speed = params.velComp->MaxSpeed;
-
-	params.distance = distance;
-
-	if (distance < radius) {
-		desired_velocity = normalize(desired_velocity) * max_speed * (distance / radius);
-	}
-	else {
-		desired_velocity = normalize(desired_velocity) * max_speed;
-	}
-
-	auto steering = desired_velocity - params.velComp->velocity;
-	params.velComp->velocity += steering;
 }
 
 void FollowSystem::Wander(ManageParams& params) 
@@ -58,7 +49,6 @@ void FollowSystem::Wander(ManageParams& params)
 		static std::mt19937 gen(dev()); 
 
 		auto now = clock.getElapsedTime().asMilliseconds();
-		auto& targetPosition = params.reg->get<PositionComponent>(wanderBehaviour->object);
 
 		if (now >= wanderBehaviour->nextDecisionTime)
 		{
@@ -86,14 +76,57 @@ void FollowSystem::Wander(ManageParams& params)
 	}
 }
 
+void FollowSystem::PredictPostion(ManageParams& params)
+{
+	PursuitEvadeBehavior* pursuingBehaviour = static_cast<PursuitEvadeBehavior*>(params.chasComp->Behavior);
+	if (pursuingBehaviour != nullptr)
+	{
+
+		sf::Vector2f& targetPosition = params.reg->get<PositionComponent>(pursuingBehaviour->object).position;
+		sf::Vector2f& targetVelocity = params.reg->get<VelocityComponent>(pursuingBehaviour->object).velocity;
+
+		float distance = getLength(targetPosition - params.posComp->position);
+		float updateDuration = 0.3f;//distance / params.velComp->MaxSpeed;
+
+		params.targetPos = targetPosition + (targetVelocity * updateDuration);
+	}
+}
+
+void FollowSystem::Pursuit(ManageParams& params)
+{
+	PredictPostion(params);
+	Seek(params);
+}
+
+void FollowSystem::Evade(ManageParams& params)
+{
+	PredictPostion(params);
+	Flee(params);
+}
+
 void FollowSystem::Seek(ManageParams& params)
 {
-	GetVelocity(params);
+	sf::Vector2f targetPos = params.targetPos;
+	auto desired_velocity = targetPos - params.posComp->position;
+	float distance = getLength(desired_velocity);
+	float radius = params.chasComp->Behavior->slowingRadius;
+	float max_speed = params.velComp->MaxSpeed;
+
+	params.distance = distance;
+
+	if (distance < radius) {
+		desired_velocity = normalize(desired_velocity) * max_speed * (distance / radius);
+	}
+	else {
+		desired_velocity = normalize(desired_velocity) * max_speed;
+	}
+
+	auto steering = desired_velocity - params.velComp->velocity;
+	params.velComp->velocity += steering;
 }
 
 void FollowSystem::Flee(ManageParams& params)
 {
-	GetVelocity(params);
+	Seek(params);
 	params.velComp->velocity *= -1;
-	
 }

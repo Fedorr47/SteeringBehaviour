@@ -12,19 +12,20 @@
 
 const sf::Time TimePerFrame = sf::seconds(1.0f / 60.0f);
 
-Game::Game() :
-    window("Steering Behaviour with EntityManager", { 800, 600 })
+Game::Game() 
 {
+    window = std::unique_ptr<Window>(new Window("Steering Behaviour with EntityManager", { 800, 600 }));
+
     debugInfo = DebugInfo::create();
 
-    settings = std::unique_ptr<GameSettings>(new GameSettings(500.0f, 200.0f, *window.getRenderWindow(), true, 60));
+    settings = std::unique_ptr<GameSettings>(new GameSettings(500.0f, 200.0f, *window->getRenderWindow(), true, 60));
     inputHandler = std::make_unique<GameInputHandler>();
     entityManager = std::unique_ptr<EntityManager>(new EntityManager(*settings.get(), *inputHandler.get(), debugInfo));
     objectManager = std::make_unique<ObjectManager>();
 
     objectManager->initObjects(*entityManager, active_entity);
 
-    ImGui::SFML::Init(*window.getRenderWindow());
+    ImGui::SFML::Init(*window->getRenderWindow());
 }
 
 Game::~Game()
@@ -37,7 +38,7 @@ void Game::run()
     sf::Time deltaTime;
     sf::Clock fpsUpdateClock;
 
-    while (window.isOpen()) {
+    while (window->isOpen()) {
         processEvents();
 
         auto update_value = clock.restart();
@@ -54,17 +55,17 @@ void Game::run()
             update(TimePerFrame);
         }
 
-        ImGui::SFML::Update(*window.getRenderWindow(), deltaTime);
+        ImGui::SFML::Update(*window->getRenderWindow(), deltaTime);
         render(deltaTime);
     }
 }
 
 void Game::processEvents() {
     sf::Event event; 
-    while (window.getRenderWindow()->pollEvent(event)) {
-        ImGui::SFML::ProcessEvent(*window.getRenderWindow(), event);
+    while (window->getRenderWindow()->pollEvent(event)) {
+        ImGui::SFML::ProcessEvent(*window->getRenderWindow(), event);
         if (event.type == sf::Event::Closed) {
-            window.close();
+            window->close();
         }
         else if (event.type == sf::Event::LostFocus) {
             entityManager->SetFocusState(false);
@@ -74,7 +75,7 @@ void Game::processEvents() {
         }
     }
 
-    window.update();
+    window->update();
 }
 
 void Game::update(sf::Time deltaTime) {
@@ -82,10 +83,17 @@ void Game::update(sf::Time deltaTime) {
 }
 
 void Game::render(sf::Time deltaTime) {
-    window.beginDraw();
+    window->beginDraw();
 
-    entityManager->render(*window.getRenderWindow());
+    entityManager->render(*window->getRenderWindow());
     /***/
+    renderImGui();
+    /****/
+    window->endDraw();
+}
+
+void Game::renderImGui()
+{
     ImGui::Begin("Debug Info");
     ImGui::Text("FPS: %.1f", debugInfo->fps);
 
@@ -98,11 +106,27 @@ void Game::render(sf::Time deltaTime) {
             FollowData.targetPos.x, FollowData.targetPos.y,
             FollowData.distanceToTarget,
             FollowData.wanderAngle);
+
+        /*
+        const char* items[] = { "Seek", "Flee", "Wander" };
+        static int current_item = 0;
+
+        if (ImGui::Combo("Movement Type", &current_item, items, IM_ARRAYSIZE(items))) {
+            switch (current_item) {
+            case 0:
+                // Seek
+                break;
+            case 1:
+                // Flee
+                break;
+            case 2:
+                // Wander
+                break;
+            }
+        }
+        */
     }
 
     ImGui::End();
-
-    ImGui::SFML::Render(*window.getRenderWindow());
-    /****/
-    window.endDraw();
+    ImGui::SFML::Render(*window->getRenderWindow());
 }

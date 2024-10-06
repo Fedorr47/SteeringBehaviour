@@ -16,6 +16,24 @@ struct MovementBehaviour
     float slowingRadius{ 0 };
 };
 
+struct SeekFleeBehavior : public MovementBehaviour
+{
+    SeekFleeBehavior(
+        entt::entity object,
+        float slowingRadius) :
+        MovementBehaviour(object, slowingRadius)
+    {}
+};
+
+struct PursuitEvadeBehavior : public SeekFleeBehavior
+{
+    PursuitEvadeBehavior(
+        entt::entity object,
+        float slowingRadius) :
+        SeekFleeBehavior(object, slowingRadius)
+    {}
+};
+
 struct WanderBehavior : public MovementBehaviour
 {
     WanderBehavior(

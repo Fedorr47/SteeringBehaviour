@@ -41,16 +41,9 @@ enum class MoveBehaviourType : char
     Seek,
     Flee,
     Wander,
+    Pursuit,
+    Evade,
     NONE
-};
-
-struct SeekFleeBehavior : public MovementBehaviour
-{
-    SeekFleeBehavior(
-        entt::entity object,
-        float slowingRadius) :
-        MovementBehaviour(object, slowingRadius)
-    {}
 };
 
 struct ChasingComponent

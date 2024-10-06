@@ -22,8 +22,9 @@ private:
     void processEvents();
     void update(sf::Time deltaTime);
     void render(sf::Time deltaTime);
+    void renderImGui();
 
-    Window window;
+    std::unique_ptr<Window> window;
     std::unique_ptr<GameSettings> settings;
     std::unique_ptr<EntityManager> entityManager;
     std::unique_ptr<GameInputHandler> inputHandler;

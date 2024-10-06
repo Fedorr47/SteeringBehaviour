@@ -14,10 +14,17 @@ public:
         IsInFocus = currentFocus;
     }
 
-    InputSystem(float maxForce, float maxSpeed, const sf::RenderWindow& window, const InputHandler& inputHandler)
-        : window(window), inputHandler(inputHandler) {}
+    InputSystem(
+        entt::registry& registry,
+        float maxForce, 
+        float maxSpeed, 
+        const sf::RenderWindow& window, 
+        const InputHandler& inputHandler) : 
+        BaseSystem(registry),
+        window(window), 
+        inputHandler(inputHandler) {}
 
-    virtual void update(entt::registry& registry, float deltaTime) override
+    virtual void update(float deltaTime) override
     {
         auto view = registry.view<VelocityComponent, ControlComponent>();
         for (auto entity : view) {

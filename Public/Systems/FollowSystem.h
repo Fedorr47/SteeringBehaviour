@@ -15,13 +15,19 @@ struct ManageParams
     VelocityComponent* velComp{nullptr};
     PositionComponent* posComp{ nullptr };
     ChasingComponent* chasComp{ nullptr };
+    sf::Vector2f targetPos;
     // debug info
     float distance{ 0 };
 };
 
 class FollowSystem : public BaseSystem {
 public:
-    virtual void update(entt::registry& registry, float deltaTime) override
+
+    FollowSystem(entt::registry& registry) :
+        BaseSystem(registry)
+    {}
+
+    virtual void update(float deltaTime) override
     {
         auto view = registry.view<PositionComponent, VelocityComponent, ChasingComponent>();
         for (auto entity : view) {
@@ -43,6 +49,9 @@ public:
     void ManageFollow(ManageParams& params);
     void GetVelocity(ManageParams& params);
     void Wander(ManageParams& params);
+    void PredictPostion(ManageParams& params);
+    void Pursuit(ManageParams& params);
+    void Evade(ManageParams& params);
     void Seek(ManageParams& params);
     void Flee(ManageParams& params);
 

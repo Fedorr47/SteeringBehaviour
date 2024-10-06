@@ -5,6 +5,14 @@ class DebugInfo;
 
 class BaseSystem {
 public:
-    virtual void update(entt::registry& registry, float deltaTime) = 0;
+    BaseSystem(entt::registry& registry) :
+        registry(registry)
+    {}
+
+    virtual void update(float deltaTime) = 0;
     std::shared_ptr<DebugInfo> debugInfo;
+
+protected:
+    entt::registry& registry;
+   
 };

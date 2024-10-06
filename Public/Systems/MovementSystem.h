@@ -8,9 +8,13 @@ class MovementSystem : public BaseSystem
 private:
     sf::Vector2u windowSize;
 public:
-    MovementSystem(const sf::Vector2u& windowSize) : windowSize(windowSize) {}
+    MovementSystem(
+        entt::registry& registry,
+        const sf::Vector2u& windowSize) :
+        BaseSystem(registry), 
+        windowSize(windowSize) {}
 
-    virtual void update(entt::registry& registry, float deltaTime) override
+    virtual void update(float deltaTime) override
     {
         // TODO: add real size of an object aginst 50
         auto view = registry.view<PositionComponent, VelocityComponent, MassComponent>();

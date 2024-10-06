@@ -56,14 +56,11 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 
 		registry.emplace<ChasingComponent>(
 			Enemy,
-			MoveBehaviourType::Wander,
-			new WanderBehavior(
-				stub,
-				45.0f,
-				WanderRanges(100.0f, 100.0f),
-				500.0f,
-				10.0f,
-				180.0f));
+			MoveBehaviourType::Evade,
+			new PursuitEvadeBehavior(
+				player,
+				10.0f)
+		);
 
 		entities.push_back(Enemy);
 	}	

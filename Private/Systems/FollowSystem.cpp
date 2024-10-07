@@ -86,9 +86,9 @@ void FollowSystem::PredictPostion(ManageParams& params)
 		sf::Vector2f& targetVelocity = params.reg->get<VelocityComponent>(pursuingBehaviour->object).velocity;
 
 		float distance = getLength(targetPosition - params.posComp->position);
-		float updateDuration = 0.3f;//distance / params.velComp->MaxSpeed;
+		float updateDuration = distance / params.velComp->MaxSpeed;
 
-		params.targetPos = targetPosition + (targetVelocity * updateDuration);
+		params.targetPos = targetPosition + (targetVelocity * updateDuration * params.deltaTime);
 	}
 }
 

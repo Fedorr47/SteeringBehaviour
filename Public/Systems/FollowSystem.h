@@ -15,6 +15,7 @@ struct ManageParams
     VelocityComponent* velComp{nullptr};
     PositionComponent* posComp{ nullptr };
     ChasingComponent* chasComp{ nullptr };
+    float deltaTime{ 0.0f };
     sf::Vector2f targetPos;
     // debug info
     float distance{ 0 };
@@ -40,7 +41,8 @@ public:
                 &registry,
                 &velocity,
                 &position,
-                &chaising
+                &chaising,
+                deltaTime
             );
             ManageFollow(params);
         };

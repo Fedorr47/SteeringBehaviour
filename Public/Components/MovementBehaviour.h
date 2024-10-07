@@ -10,43 +10,79 @@ enum class MoveBehaviourType : char
     NONE
 };
 
+inline static const std::unordered_map<MoveBehaviourType, const std::string> MovementBehaviorNames{
+    {MoveBehaviourType::Seek,"Seek"},
+    {MoveBehaviourType::Flee,"Flee"},
+    {MoveBehaviourType::Wander,"Wander"},
+    {MoveBehaviourType::Pursuit,"Pursuit"},
+    {MoveBehaviourType::Evade,"Evade"}
+};
+
 struct WanderRanges
 {
     float innerRange{ 0.0f };
     float outerRange{ 0.0f };
 };
 
-struct MovementBehaviour
+struct MovementBehavior
 {
-    MovementBehaviour(
+    MoveBehaviourType type = MoveBehaviourType::Seek;
+    MovementBehavior(
         entt::entity object,
         float slowingRadius) :
         object(object),
+        type(type),
         slowingRadius(slowingRadius)
     {}
     entt::entity object;
     float slowingRadius{ 0 };
 };
 
-struct SeekFleeBehavior : public MovementBehaviour
+struct SeekBehavior : public MovementBehavior
 {
-    SeekFleeBehavior(
+    SeekBehavior(
         entt::entity object,
         float slowingRadius) :
-        MovementBehaviour(object, slowingRadius)
-    {}
+        MovementBehavior(object, slowingRadius)
+    {
+        type = MoveBehaviourType::Seek;
+    }
 };
 
-struct PursuitEvadeBehavior : public SeekFleeBehavior
+struct FleeBehavior : public MovementBehavior
 {
-    PursuitEvadeBehavior(
+    FleeBehavior(
         entt::entity object,
         float slowingRadius) :
-        SeekFleeBehavior(object, slowingRadius)
-    {}
+        MovementBehavior(object, slowingRadius)
+    {
+        type = MoveBehaviourType::Flee;
+    }
 };
 
-struct WanderBehavior : public MovementBehaviour
+struct PursuitBehavior : public SeekBehavior
+{
+    PursuitBehavior(
+        entt::entity object,
+        float slowingRadius) :
+        SeekBehavior(object, slowingRadius)
+    {
+        type = MoveBehaviourType::Pursuit;
+    }
+};
+
+struct EvadeBehavior : public FleeBehavior
+{
+    EvadeBehavior(
+        entt::entity object,
+        float slowingRadius) :
+        FleeBehavior(object, slowingRadius)
+    {
+        type = MoveBehaviourType::Evade;
+    }
+};
+
+struct WanderBehavior : public MovementBehavior
 {
     WanderBehavior(
         entt::entity object,
@@ -56,12 +92,14 @@ struct WanderBehavior : public MovementBehaviour
         float circleDistance,
         float angleChange
     ) :
-        MovementBehaviour(object, slowingRadius),
+        MovementBehavior(object, slowingRadius),
         ranges(ranges),
         timeWaiting(timeWaiting),
         circleDistance(circleDistance),
         angleChange(angleChange)
-    {}
+    {
+        type = MoveBehaviourType::Wander;
+    }
     WanderRanges ranges;
     float timeWaiting{ 0.0f };
     float nextDecisionTime{ 0.0f };

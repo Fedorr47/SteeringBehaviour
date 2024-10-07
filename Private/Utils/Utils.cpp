@@ -38,12 +38,15 @@ float toDegrees(float radians)
     return static_cast<float>(radians * Degree180 / std::numbers::pi);
 }
 
-void setAngle(sf::Vector2f& vector, float angle)
+sf::Vector2f setAngle(sf::Vector2f& vector, float angle)
 {
     float radians = toRadians(angle);
-    float length = getLength(vector);
-    vector.x = std::cos(radians) * length;
-    vector.y = std::sin(radians) * length;
+    float cosTheta = cos(radians);
+    float sinTheta = sin(radians);
+    return {
+        vector.x * cosTheta - vector.y * sinTheta,
+        vector.x * sinTheta + vector.y * cosTheta
+    };
 }
 
 float computeTargetAngle(const sf::Vector2f& vector)

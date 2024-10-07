@@ -22,8 +22,16 @@ public:
             auto& position = view.get<PositionComponent>(entity);
             auto& velocity = view.get<VelocityComponent>(entity);
             auto& mass = view.get<MassComponent>(entity);
-            
-            position.position += truncate(velocity.velocity + (velocity.velocity / mass.mass), velocity.MaxSpeed) * deltaTime;
+
+            if (getLength(velocity.steering) > 0.00000001)
+            {
+                velocity.velocity = truncate(velocity.velocity + truncate(velocity.steering, 100.0f) / mass.mass, velocity.maxSpeed);
+                position.position = position.position + velocity.velocity * deltaTime;
+            }
+            else
+            {
+                position.position += truncate(velocity.velocity + (velocity.velocity / mass.mass), velocity.maxSpeed) * deltaTime;
+            }
             position.angle = computeTargetAngle(velocity.velocity) + 90.0f;
 
             if (position.position.x < 0) {

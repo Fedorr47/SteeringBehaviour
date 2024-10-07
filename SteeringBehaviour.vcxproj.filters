@@ -49,6 +49,9 @@
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{06601408-bf85-455a-b310-962093dc1835}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{95faf67a-833f-4ba9-a88a-a6c4efab44e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntryPoint.cpp">
@@ -128,9 +131,6 @@
     <ClInclude Include="Public\EntityManager\EntityManager.h">
       <Filter>Header Files\EntityManager</Filter>
     </ClInclude>
-    <ClInclude Include="Public\Components\Components.h">
-      <Filter>Header Files\EntityManager</Filter>
-    </ClInclude>
     <ClInclude Include="Public\Systems\InputHandler.h">
       <Filter>Header Files\Inputs</Filter>
     </ClInclude>
@@ -148,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="Public\Game\ObjectsManager.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Components\Components.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Components\MovementBehaviour.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -28,12 +28,6 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 
 	// Enemy
 
-	auto Enemy = registry.create();
-
-	registry.emplace<PositionComponent>(Enemy, sf::Vector2f(200.0f, 200.0f));
-	registry.emplace<VelocityComponent>(Enemy, sf::Vector2f(0.0f, -10.0f), 100.0f, 100.0f);
-	registry.emplace<MassComponent>(Enemy, 150.0f);
-
 	sf::ConvexShape triangle;
 	triangle.setPointCount(3);
 
@@ -46,34 +40,50 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 	triangle.setPoint(2, sf::Vector2f(0.0f, height));
 	triangle.setFillColor(sf::Color::Red);
 	triangle.setOrigin(base / 2.0f, height / 2.0f);
+	//
+
+	
+	auto Enemy = registry.create();
+
+	registry.emplace<PositionComponent>(Enemy, sf::Vector2f(200.0f, 200.0f));
+	registry.emplace<VelocityComponent>(Enemy, sf::Vector2f(0.0f, -10.0f), 5.0f, 5.0f);
+	registry.emplace<MassComponent>(Enemy, 10.0f);
 
 	registry.emplace<ShapeComponent>(Enemy, triangle);
 
 	registry.emplace<ChasingComponent>(
-		Enemy,
-		MoveBehaviourType::Evade,
-		new PursuitEvadeBehavior(
-			player,
-			10.0f)
+		Enemy
 	);
+	registry.get<ChasingComponent>(Enemy).Behaviors.push_back(new WanderBehavior(
+		registry.create(),
+		10.0f,
+		WanderRanges(100.0f, 100.0f),
+		1000.0f,
+		100.0f,
+		45.0f));
 
 	entities.push_back(Enemy);
+	
 
 	auto Enemy1 = registry.create();
 
 	registry.emplace<PositionComponent>(Enemy1, sf::Vector2f(250.0f, 250.0f));
-	registry.emplace<VelocityComponent>(Enemy1, sf::Vector2f(0.0f, -10.0f), 50.0f, 50.0f);
-	registry.emplace<MassComponent>(Enemy1, 300.0f);
+	registry.emplace<VelocityComponent>(Enemy1, sf::Vector2f(0.0f, 0.0f), 100.0f, 100.0f);
+	registry.emplace<MassComponent>(Enemy1, 2.0f);
 
 	registry.emplace<ShapeComponent>(Enemy1, triangle);
 
 	registry.emplace<ChasingComponent>(
-		Enemy1,
-		MoveBehaviourType::Evade,
-		new PursuitEvadeBehavior(
-			player,
-			10.0f)
+		Enemy1
 	);
+
+	registry.get<ChasingComponent>(Enemy1).Behaviors.push_back(new PursuitBehavior(
+		player,
+		7.0f));
+
+	registry.get<ChasingComponent>(Enemy1).Behaviors.push_back(new EvadeBehavior(
+		Enemy,
+		150.0f));
 
 	entities.push_back(Enemy1);
 

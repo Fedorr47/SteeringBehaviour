@@ -1,9 +1,10 @@
 #pragma once
 #include <SFML/System/Vector2.hpp>
 #include <unordered_map>
+#include <string>
 
 struct FollowDebugInfo {
-    int entityID;
+    int entityID{-1};
     sf::Vector2f position;
     sf::Vector2f velocity;
     sf::Vector2f targetPos;

@@ -14,7 +14,8 @@ struct VelocityComponent
 {
     sf::Vector2f velocity;
     float speed;
-    float MaxSpeed;
+    float maxSpeed;
+    sf::Vector2f steering;
 };
 
 struct ShapeComponent
@@ -36,20 +37,9 @@ struct FocusComponent
     bool isFocusLost = false;
 };
 
-enum class MoveBehaviourType : char
-{
-    Seek,
-    Flee,
-    Wander,
-    Pursuit,
-    Evade,
-    NONE
-};
-
 struct ChasingComponent
 {
-    MoveBehaviourType type = MoveBehaviourType::Seek;   
-    MovementBehaviour* Behavior{nullptr};
+    std::vector<MovementBehavior*> Behaviors;
 };
 
 

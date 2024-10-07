@@ -1,3 +1,15 @@
+#pragma once
+
+enum class MoveBehaviourType : char
+{
+    Seek,
+    Flee,
+    Wander,
+    Pursuit,
+    Evade,
+    NONE
+};
+
 struct WanderRanges
 {
     float innerRange{ 0.0f };

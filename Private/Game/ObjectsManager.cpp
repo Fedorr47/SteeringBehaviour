@@ -27,42 +27,54 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 	entities.push_back(player);
 
 	// Enemy
-	int enemies_count = 1;
-	for (int i = 0; i < enemies_count; ++i)
-	{
-		auto Enemy = registry.create();
 
-		registry.emplace<PositionComponent>(Enemy, sf::Vector2f(200.0f, 200.0f));
-		registry.emplace<VelocityComponent>(Enemy, sf::Vector2f(0.0f, -10.0f), 100.0f, 100.0f);
-		registry.emplace<MassComponent>(Enemy, 150.0f);
+	auto Enemy = registry.create();
 
-		sf::ConvexShape triangle;
-		triangle.setPointCount(3);
+	registry.emplace<PositionComponent>(Enemy, sf::Vector2f(200.0f, 200.0f));
+	registry.emplace<VelocityComponent>(Enemy, sf::Vector2f(0.0f, -10.0f), 100.0f, 100.0f);
+	registry.emplace<MassComponent>(Enemy, 150.0f);
 
-		float L = 25.0f;
-		float height = L * std::sin(75.0 * std::numbers::pi / 180.0);
-		float base = 2 * L * std::cos(75.0 * std::numbers::pi / 180.0);
+	sf::ConvexShape triangle;
+	triangle.setPointCount(3);
 
-		triangle.setPoint(0, sf::Vector2f(base / 2.0f, 0.0f));
-		triangle.setPoint(1, sf::Vector2f(base, height));
-		triangle.setPoint(2, sf::Vector2f(0.0f, height));
-		triangle.setFillColor(sf::Color::Red);
-		triangle.setOrigin(base / 2.0f, height / 2.0f);
+	float L = 25.0f;
+	float height = L * std::sin(75.0 * std::numbers::pi / 180.0);
+	float base = 2 * L * std::cos(75.0 * std::numbers::pi / 180.0);
 
-		registry.emplace<ShapeComponent>(Enemy, triangle);
+	triangle.setPoint(0, sf::Vector2f(base / 2.0f, 0.0f));
+	triangle.setPoint(1, sf::Vector2f(base, height));
+	triangle.setPoint(2, sf::Vector2f(0.0f, height));
+	triangle.setFillColor(sf::Color::Red);
+	triangle.setOrigin(base / 2.0f, height / 2.0f);
 
-		auto stub = registry.create();
-		registry.emplace<PositionComponent>(stub, sf::Vector2f(200.0f, 200.0f));
+	registry.emplace<ShapeComponent>(Enemy, triangle);
 
-		registry.emplace<ChasingComponent>(
-			Enemy,
-			MoveBehaviourType::Evade,
-			new PursuitEvadeBehavior(
-				player,
-				10.0f)
-		);
+	registry.emplace<ChasingComponent>(
+		Enemy,
+		MoveBehaviourType::Evade,
+		new PursuitEvadeBehavior(
+			player,
+			10.0f)
+	);
 
-		entities.push_back(Enemy);
-	}	
-	
+	entities.push_back(Enemy);
+
+	auto Enemy1 = registry.create();
+
+	registry.emplace<PositionComponent>(Enemy1, sf::Vector2f(250.0f, 250.0f));
+	registry.emplace<VelocityComponent>(Enemy1, sf::Vector2f(0.0f, -10.0f), 50.0f, 50.0f);
+	registry.emplace<MassComponent>(Enemy1, 300.0f);
+
+	registry.emplace<ShapeComponent>(Enemy1, triangle);
+
+	registry.emplace<ChasingComponent>(
+		Enemy1,
+		MoveBehaviourType::Evade,
+		new PursuitEvadeBehavior(
+			player,
+			10.0f)
+	);
+
+	entities.push_back(Enemy1);
+
 }

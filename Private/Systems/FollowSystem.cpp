@@ -3,45 +3,47 @@
 void FollowSystem::ManageFollow(ManageParams& params)
 {
 	params.velComp->steering = sf::Vector2f(0.0f, 0.0f);
-	sf::Vector2f steerring;
+	std::vector<sf::Vector2f> steerings;
 	for (MovementBehavior* behavior : params.chasComp->Behaviors)
 	{
 		params.currentBehavior = behavior;
+		sf::Vector2f steering;
 		switch (behavior->type)
 		{
 		case MoveBehaviourType::Seek:
 			params.targetPos = params.reg->get<PositionComponent>(behavior->object).position;
-			steerring = Seek(params);
+			steering = Seek(params);
 			break;
 		case MoveBehaviourType::Flee:
 			params.targetPos = params.reg->get<PositionComponent>(behavior->object).position;
-			steerring = Flee(params);
+			steering = Flee(params);
 			break;
 		case MoveBehaviourType::Wander:
-			steerring = Wander(params);
+			steering = Wander(params);
 			break;
 		case MoveBehaviourType::Pursuit:
-			steerring = Pursuit(params);
+			steering = Pursuit(params);
 			break;
 		case MoveBehaviourType::Evade:
-			steerring = Evade(params);
+			steering = Evade(params);
 			break;
 		default:
 			break;
 		}
 
-		params.velComp->steering += steerring;
+		steerings.push_back(steering);
 
 		params.info.entityID = params.entityID;
 		params.info.position = params.posComp->position;
 		params.info.velocity = params.velComp->velocity;
 		debugInfo->chasingEntities[params.info.entityID] = params.info;
 	}
-}
-
-float randomFloat(float min, float max) {
-	// Возвращает случайное число между min и max
-	return min + (float(rand()) / float(RAND_MAX)) * (max - min);
+	for (int i = 0; i < steerings.size(); ++i)
+	{
+		params.velComp->steering += steerings[i];
+	}
+	auto averageDirection = params.velComp->steering * (1.0f / steerings.size());
+	params.velComp->steering = averageDirection * (1.0f - 0.9f); // TODO - move to utils and make this part ganeral
 }
 
 sf::Vector2f FollowSystem::Wander(ManageParams& params)

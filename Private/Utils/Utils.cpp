@@ -54,3 +54,11 @@ float computeTargetAngle(const sf::Vector2f& vector)
 
     return std::atan2(vector.y, vector.x) * Degree180 / std::numbers::pi;
 }
+
+float randomFloat(float min, float max)
+{
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dis(min, max);
+    return dis(gen);
+}

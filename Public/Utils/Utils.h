@@ -2,6 +2,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <concepts>
 #include <numbers>
+#include <random>
 
 float getLength(const sf::Vector2f& vec);
 sf::Vector2f truncate(const sf::Vector2f& vec, float max); 
@@ -24,3 +25,5 @@ sf::Vector2f  operator*(sf::Vector2f& lhs, T val)
 {
     return lhs *= val;
 }
+
+float randomFloat(float min, float max);

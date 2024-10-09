@@ -114,17 +114,17 @@ sf::Vector2f FollowSystem::SeekOrFlee(ManageParams& params, Compare comp, bool i
 	float radius = params.currentBehavior->slowingRadius;
 	float max_speed = params.velComp->maxSpeed;
 
-	auto desiredVelocity = normalize(params.targetPos - params.posComp->position);
+	auto desiredVelocity = params.targetPos - params.posComp->position;
 	float distance = getLength(desiredVelocity);
 	
 	params.info.distanceToTarget = distance;
 
 	if (comp(distance, radius)) {
 		float modifier = inverse ? (radius / distance) : (distance / radius);
-		desiredVelocity = desiredVelocity * modifier;
+		desiredVelocity = normalize(desiredVelocity) * modifier;
 	}
 	else {
-		desiredVelocity = desiredVelocity * max_speed;
+		desiredVelocity = normalize(desiredVelocity) * max_speed;
 	}
 
 	if (inverse) {
@@ -143,4 +143,18 @@ sf::Vector2f FollowSystem::Seek(ManageParams& params)
 sf::Vector2f FollowSystem::Flee(ManageParams& params)
 {
 	return SeekOrFlee(params, std::greater<float>(), true);
+}
+
+bool lineIntersectsCircle(sf::Vector2f& ahead, sf::Vector2f& ahead2, const sf::Vector2f& center, float radius)
+{
+	return distance(center, ahead) <= radius || distance(center, ahead2) <= radius;
+}
+
+sf::Vector2f FollowSystem::CollosionAvoidance(ManageParams& params)
+{
+	auto position = params.posComp->position;
+	auto velocity = params.velComp->velocity;
+	sf::Vector2f avoidance;
+	// In progress =)
+	return avoidance;
 }

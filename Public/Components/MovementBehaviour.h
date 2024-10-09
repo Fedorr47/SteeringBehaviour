@@ -24,6 +24,7 @@ struct WanderRanges
     float outerRange{ 0.0f };
 };
 
+// TODO: Replace all of them to syb-systems
 struct MovementBehavior
 {
     MoveBehaviourType type = MoveBehaviourType::Seek;

@@ -55,6 +55,11 @@ float computeTargetAngle(const sf::Vector2f& vector)
     return std::atan2(vector.y, vector.x) * Degree180 / std::numbers::pi;
 }
 
+float distance(const sf::Vector2f& obj1, const sf::Vector2f& obj2)
+{
+    return sqrt((obj1.x - obj2.x) * (obj1.x - obj2.x) + (obj1.y - obj2.y) * (obj1.y - obj2.y));
+}
+
 float randomFloat(float min, float max)
 {
     static std::random_device rd;

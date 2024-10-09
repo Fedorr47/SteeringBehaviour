@@ -59,6 +59,8 @@ public:
     sf::Vector2f Seek(ManageParams& params);
     sf::Vector2f Flee(ManageParams& params);
 
+    sf::Vector2f CollosionAvoidance(ManageParams& params);
+
 private:
     std::random_device dev;
 };

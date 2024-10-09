@@ -11,6 +11,7 @@ float toRadians(float angle);
 float toDegrees(float radians);
 sf::Vector2f setAngle(sf::Vector2f& vector, float angle);
 float computeTargetAngle(const sf::Vector2f& vector);
+float distance(const sf::Vector2f& obj1, const sf::Vector2f& obj2);
 
 template <std::integral T>
 sf::Vector2f& operator*=(sf::Vector2f& lhs, T val)

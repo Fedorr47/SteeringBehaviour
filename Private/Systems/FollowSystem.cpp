@@ -43,7 +43,7 @@ void FollowSystem::ManageFollow(ManageParams& params)
 		params.velComp->steering += steerings[i];
 	}
 	auto averageDirection = params.velComp->steering * (1.0f / steerings.size());
-	params.velComp->steering = averageDirection * (1.0f - 0.9f); // TODO - move to utils and make this part ganeral
+	params.velComp->steering = averageDirection * (1.0f - 0.9f); // TODO - move to utils and make this part general
 }
 
 sf::Vector2f FollowSystem::Wander(ManageParams& params)
@@ -111,20 +111,20 @@ sf::Vector2f FollowSystem::Evade(ManageParams& params)
 template <typename Compare>
 sf::Vector2f FollowSystem::SeekOrFlee(ManageParams& params, Compare comp, bool inverse /*= false*/)
 {
-	sf::Vector2f targetPos = params.targetPos;
-	auto desiredVelocity = targetPos - params.posComp->position;
-	float distance = getLength(desiredVelocity);
 	float radius = params.currentBehavior->slowingRadius;
 	float max_speed = params.velComp->maxSpeed;
 
+	auto desiredVelocity = normalize(params.targetPos - params.posComp->position);
+	float distance = getLength(desiredVelocity);
+	
 	params.info.distanceToTarget = distance;
 
 	if (comp(distance, radius)) {
 		float modifier = inverse ? (radius / distance) : (distance / radius);
-		desiredVelocity = normalize(desiredVelocity) * modifier;
+		desiredVelocity = desiredVelocity * modifier;
 	}
 	else {
-		desiredVelocity = normalize(desiredVelocity) * max_speed;
+		desiredVelocity = desiredVelocity * max_speed;
 	}
 
 	if (inverse) {

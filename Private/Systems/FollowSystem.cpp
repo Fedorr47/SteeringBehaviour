@@ -1,5 +1,31 @@
 ﻿#include "Systems/FollowSystem.h"
 
+#include "Utils/Utils.h"
+#include "Components/Components.h"
+
+#include "ThirdParty/imgui/imgui-SFML.h"
+#include "ThirdParty/imgui/imgui.h"
+
+void FollowSystem::update(float deltaTime)
+{
+	auto view = registry.view<PositionComponent, VelocityComponent, ChasingComponent>();
+	for (auto entity : view) {
+		auto& position = view.get<PositionComponent>(entity);
+		ChasingComponent& chaising = registry.get<ChasingComponent>(entity);
+		VelocityComponent& velocity = view.get<VelocityComponent>(entity);
+
+		ManageParams params(
+			static_cast<int>(entity),
+			&registry,
+			&velocity,
+			&position,
+			&chaising,
+			deltaTime
+		);
+		ManageFollow(params);
+	};
+}
+
 void FollowSystem::ManageFollow(ManageParams& params)
 {
 	params.velComp->steering = sf::Vector2f(0.0f, 0.0f);
@@ -143,18 +169,4 @@ sf::Vector2f FollowSystem::Seek(ManageParams& params)
 sf::Vector2f FollowSystem::Flee(ManageParams& params)
 {
 	return SeekOrFlee(params, std::greater<float>(), true);
-}
-
-bool lineIntersectsCircle(sf::Vector2f& ahead, sf::Vector2f& ahead2, const sf::Vector2f& center, float radius)
-{
-	return distance(center, ahead) <= radius || distance(center, ahead2) <= radius;
-}
-
-sf::Vector2f FollowSystem::CollosionAvoidance(ManageParams& params)
-{
-	auto position = params.posComp->position;
-	auto velocity = params.velComp->velocity;
-	sf::Vector2f avoidance;
-	// In progress =)
-	return avoidance;
 }

@@ -1,12 +1,12 @@
 ﻿#pragma once
 #include "BaseSystem.h"
-#include "Utils/Utils.h"
 #include "Utils/DebugInfo.h"
-#include "Components/Components.h"
-
-#include "ThirdParty/imgui/imgui-SFML.h"
-#include "ThirdParty/imgui/imgui.h"
 #include <random>
+
+struct VelocityComponent;
+struct PositionComponent;
+struct ChasingComponent;
+struct MovementBehavior;
 
 struct ManageParams
 {
@@ -29,25 +29,7 @@ public:
         BaseSystem(registry)
     {}
 
-    virtual void update(float deltaTime) override
-    {
-        auto view = registry.view<PositionComponent, VelocityComponent, ChasingComponent>();
-        for (auto entity : view) {
-            auto& position = view.get<PositionComponent>(entity);
-            ChasingComponent& chaising = registry.get<ChasingComponent>(entity);
-            VelocityComponent& velocity = view.get<VelocityComponent>(entity);          
-
-            ManageParams params(
-                static_cast<int>(entity),
-                &registry,
-                &velocity,
-                &position,
-                &chaising,
-                deltaTime
-            );
-            ManageFollow(params);
-        };
-    }
+    virtual void update(float deltaTime) override;
 
     void ManageFollow(ManageParams& params);
     void PredictPostion(ManageParams& params);
@@ -58,8 +40,6 @@ public:
     sf::Vector2f SeekOrFlee(ManageParams& params, Compare comp, bool inverse = false);
     sf::Vector2f Seek(ManageParams& params);
     sf::Vector2f Flee(ManageParams& params);
-
-    sf::Vector2f CollosionAvoidance(ManageParams& params);
 
 private:
     std::random_device dev;

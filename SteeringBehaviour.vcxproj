@@ -217,7 +217,12 @@
     <ClCompile Include="Private\EntityManager\EntityManager.cpp" />
     <ClCompile Include="Private\Game\Game.cpp" />
     <ClCompile Include="Private\Game\ObjectsManager.cpp" />
+    <ClCompile Include="Private\Systems\CollisionSystem.cpp" />
     <ClCompile Include="Private\Systems\FollowSystem.cpp" />
+    <ClCompile Include="Private\Systems\InputSystem.cpp" />
+    <ClCompile Include="Private\Systems\MovementSystem.cpp" />
+    <ClCompile Include="Private\Systems\RenderSystem.cpp" />
+    <ClCompile Include="Private\Systems\ShapeSystem.cpp" />
     <ClCompile Include="Private\ThirdParty\imgui\imgui-SFML.cpp" />
     <ClCompile Include="Private\ThirdParty\imgui\imgui.cpp" />
     <ClCompile Include="Private\ThirdParty\imgui\imgui_draw.cpp" />
@@ -234,6 +239,7 @@
     <ClInclude Include="Public\Game\ObjectsManager.h" />
     <ClInclude Include="Public\Settings\GameSettings.h" />
     <ClInclude Include="Public\Systems\BaseSystem.h" />
+    <ClInclude Include="Public\Systems\CollisionSystem.h" />
     <ClInclude Include="Public\Systems\FollowSystem.h" />
     <ClInclude Include="Public\Systems\InputHandler.h" />
     <ClInclude Include="Public\Systems\InputSystem.h" />

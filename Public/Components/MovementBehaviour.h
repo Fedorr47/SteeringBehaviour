@@ -86,14 +86,13 @@ struct EvadeBehavior : public FleeBehavior
 struct WanderBehavior : public MovementBehavior
 {
     WanderBehavior(
-        entt::entity object,
         float slowingRadius,
         WanderRanges ranges,
         float timeWaiting,
         float circleDistance,
         float angleChange
     ) :
-        MovementBehavior(object, slowingRadius),
+        MovementBehavior(entt::null, slowingRadius),
         ranges(ranges),
         timeWaiting(timeWaiting),
         circleDistance(circleDistance),

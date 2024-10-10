@@ -55,7 +55,6 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 		Enemy
 	);
 	registry.get<ChasingComponent>(Enemy).Behaviors.push_back(new WanderBehavior(
-		registry.create(),
 		10.0f,
 		WanderRanges(100.0f, 100.0f),
 		1000.0f,

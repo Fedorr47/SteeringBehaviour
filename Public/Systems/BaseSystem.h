@@ -1,5 +1,6 @@
 #pragma once
 #include <ThirdParty/entt/entt.hpp>
+#include <SFML/Graphics.hpp>
 
 class DebugInfo;
 

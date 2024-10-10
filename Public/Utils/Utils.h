@@ -22,7 +22,7 @@ sf::Vector2f& operator*=(sf::Vector2f& lhs, T val)
 }
 
 template <std::integral T>
-sf::Vector2f  operator*(sf::Vector2f& lhs, T val)
+sf::Vector2f& operator*(sf::Vector2f& lhs, T val)
 {
     return lhs *= val;
 }

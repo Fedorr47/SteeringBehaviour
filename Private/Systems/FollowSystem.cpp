@@ -11,10 +11,10 @@ void FollowSystem::update(float deltaTime)
 	auto view = registry.view<PositionComponent, VelocityComponent, ChasingComponent>();
 	for (auto entity : view) {
 		auto& position = view.get<PositionComponent>(entity);
-		ChasingComponent& chaising = registry.get<ChasingComponent>(entity);
+		ChasingComponent& chaising = view.get<ChasingComponent>(entity);
 		VelocityComponent& velocity = view.get<VelocityComponent>(entity);
 
-		ManageParams params(
+		ManageFollowParams params(
 			static_cast<int>(entity),
 			&registry,
 			&velocity,
@@ -26,7 +26,7 @@ void FollowSystem::update(float deltaTime)
 	};
 }
 
-void FollowSystem::ManageFollow(ManageParams& params)
+void FollowSystem::ManageFollow(ManageFollowParams& params)
 {
 	params.velComp->steering = sf::Vector2f(0.0f, 0.0f);
 	std::vector<sf::Vector2f> steerings;
@@ -72,7 +72,7 @@ void FollowSystem::ManageFollow(ManageParams& params)
 	params.velComp->steering = averageDirection * (1.0f - 0.9f); // TODO - move to utils and make this part general
 }
 
-sf::Vector2f FollowSystem::Wander(ManageParams& params)
+sf::Vector2f FollowSystem::Wander(ManageFollowParams& params)
 {
 	sf::Vector2f wanderForce;
 	WanderBehavior* wanderBehaviour = static_cast<WanderBehavior*>(params.currentBehavior);
@@ -106,7 +106,7 @@ sf::Vector2f FollowSystem::Wander(ManageParams& params)
 	return wanderForce;
 }
 
-void FollowSystem::PredictPostion(ManageParams& params)
+void FollowSystem::PredictPostion(ManageFollowParams& params)
 {
 	PursuitBehavior* pursuingBehaviour = static_cast<PursuitBehavior*>(params.currentBehavior);
 	if (pursuingBehaviour != nullptr)
@@ -122,20 +122,20 @@ void FollowSystem::PredictPostion(ManageParams& params)
 	}
 }
 
-sf::Vector2f FollowSystem::Pursuit(ManageParams& params)
+sf::Vector2f FollowSystem::Pursuit(ManageFollowParams& params)
 {
 	PredictPostion(params);
 	return Seek(params);
 }
 
-sf::Vector2f FollowSystem::Evade(ManageParams& params)
+sf::Vector2f FollowSystem::Evade(ManageFollowParams& params)
 {
 	PredictPostion(params);
 	return Flee(params);
 }
 
 template <typename Compare>
-sf::Vector2f FollowSystem::SeekOrFlee(ManageParams& params, Compare comp, bool inverse /*= false*/)
+sf::Vector2f FollowSystem::SeekOrFlee(ManageFollowParams& params, Compare comp, bool inverse /*= false*/)
 {
 	float radius = params.currentBehavior->slowingRadius;
 	float max_speed = params.velComp->maxSpeed;
@@ -161,12 +161,12 @@ sf::Vector2f FollowSystem::SeekOrFlee(ManageParams& params, Compare comp, bool i
 	return steering;
 }
 
-sf::Vector2f FollowSystem::Seek(ManageParams& params)
+sf::Vector2f FollowSystem::Seek(ManageFollowParams& params)
 {
 	return SeekOrFlee(params, std::less<float>());
 }
 
-sf::Vector2f FollowSystem::Flee(ManageParams& params)
+sf::Vector2f FollowSystem::Flee(ManageFollowParams& params)
 {
 	return SeekOrFlee(params, std::greater<float>(), true);
 }

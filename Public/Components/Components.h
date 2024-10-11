@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <SFML/Graphics.hpp>
-#include <variant>
+#include <queue>
 
 #include "MovementBehaviour.h"
 
@@ -40,6 +40,21 @@ struct FocusComponent
 struct ChasingComponent
 {
     std::vector<MovementBehavior*> Behaviors;
+};
+
+struct ObstacleComponent
+{
+    sf::Vector2f center;
+    float radius{ 0.0f };
+};
+
+struct AvoidanceComponent
+{
+    std::priority_queue<
+        ObstacleComponent*,
+        std::vector<ObstacleComponent*>,
+        decltype([](const ObstacleComponent& a, const ObstacleComponent& b) { return a.radius < b.radius; })>
+        Obstacles;
 };
 
 

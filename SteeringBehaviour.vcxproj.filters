@@ -96,7 +96,7 @@
     <ClCompile Include="Private\Systems\FollowSystem.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Private\Systems\CollisionSystem.cpp">
+    <ClCompile Include="Private\Systems\AvoidanceSystem.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
     <ClCompile Include="Private\Systems\InputSystem.cpp">
@@ -170,7 +170,10 @@
     <ClInclude Include="Public\Components\MovementBehaviour.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Public\Systems\CollisionSystem.h">
+    <ClInclude Include="Public\Systems\AvoidanceSystem.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Systems\ObstaclesSystem.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>

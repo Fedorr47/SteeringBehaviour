@@ -14,7 +14,7 @@ const sf::Time TimePerFrame = sf::seconds(1.0f / 60.0f);
 
 Game::Game() 
 {
-    window = std::unique_ptr<Window>(new Window("Steering Behaviour with EntityManager", { 800, 600 }));
+    window = std::unique_ptr<Window>(new Window("Steering Behaviour with EntityManager", { 1200, 900 }));
 
     debugInfo = DebugInfo::create();
 

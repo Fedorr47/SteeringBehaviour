@@ -8,7 +8,7 @@ struct PositionComponent;
 struct ChasingComponent;
 struct MovementBehavior;
 
-struct ManageParams
+struct ManageFollowParams
 {
     int entityID{ 0 };
     entt::registry* reg{ nullptr };
@@ -31,15 +31,15 @@ public:
 
     virtual void update(float deltaTime) override;
 
-    void ManageFollow(ManageParams& params);
-    void PredictPostion(ManageParams& params);
-    sf::Vector2f Wander(ManageParams& params);
-    sf::Vector2f Pursuit(ManageParams& params);
-    sf::Vector2f Evade(ManageParams& params);
+    void ManageFollow(ManageFollowParams& params);
+    void PredictPostion(ManageFollowParams& params);
+    sf::Vector2f Wander(ManageFollowParams& params);
+    sf::Vector2f Pursuit(ManageFollowParams& params);
+    sf::Vector2f Evade(ManageFollowParams& params);
     template <typename Compare>
-    sf::Vector2f SeekOrFlee(ManageParams& params, Compare comp, bool inverse = false);
-    sf::Vector2f Seek(ManageParams& params);
-    sf::Vector2f Flee(ManageParams& params);
+    sf::Vector2f SeekOrFlee(ManageFollowParams& params, Compare comp, bool inverse = false);
+    sf::Vector2f Seek(ManageFollowParams& params);
+    sf::Vector2f Flee(ManageFollowParams& params);
 
 private:
     std::random_device dev;

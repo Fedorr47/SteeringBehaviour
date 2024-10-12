@@ -23,8 +23,7 @@ void AvoidanceSystem::update(float deltaTime)
             {
                 avoidance.theNearstOne = obstacle;
             }
-            prevDist = curDist;
-
+            prevDist = std::min(curDist, prevDist);
         }
 
         ManageAvoidanceParams params

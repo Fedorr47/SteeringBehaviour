@@ -22,6 +22,17 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 	registry.emplace<ObstacleComponent>(obstacle, 30.0f);
 	registry.emplace<ShapeComponent>(obstacle, CreateSquare(sf::Color::Yellow, 25.0f, 25.0f));
 
+	auto obstacle1 = entityManager.createEntity();
+	registry.emplace<PositionComponent>(obstacle1, sf::Vector2f(600.0f, 400.0f));
+	registry.emplace<ObstacleComponent>(obstacle1, 30.0f);
+	registry.emplace<ShapeComponent>(obstacle1, CreateSquare(sf::Color::Cyan, 25.0f, 25.0f));
+
+
+	auto obstacle2 = entityManager.createEntity();
+	registry.emplace<PositionComponent>(obstacle2, sf::Vector2f(400.0f, 600.0f));
+	registry.emplace<ObstacleComponent>(obstacle2, 30.0f);
+	registry.emplace<ShapeComponent>(obstacle2, CreateSquare(sf::Color::White, 25.0f, 25.0f));
+
 	entities.push_back(obstacle);
 
 	// Enemies

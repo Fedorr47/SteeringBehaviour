@@ -63,7 +63,7 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 	registry.emplace<PositionComponent>(Enemy1, sf::Vector2f(250.0f, 250.0f));
 	registry.emplace<VelocityComponent>(Enemy1, sf::Vector2f(0.0f, 0.0f), 100.0f, 100.0f);
 	registry.emplace<MassComponent>(Enemy1, 2.0f);
-	registry.emplace<AvoidanceComponent>(Enemy1, 200.0f);
+	registry.emplace<AvoidanceComponent>(Enemy1, 200.0f, 50.0f);
 
 	registry.emplace<ShapeComponent>(Enemy1, CreateTriangle(sf::Color::Red, 20.0f, 25.0f));
 

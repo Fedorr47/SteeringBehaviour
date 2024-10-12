@@ -52,6 +52,7 @@ struct ObstacleComponent
 struct AvoidanceComponent
 {
     float radiusToSee{ 0.0f };
+    float maxAvoidForce{ 0.0f };
     ObstacleComponent* theNearstOne{ nullptr };
 };
 

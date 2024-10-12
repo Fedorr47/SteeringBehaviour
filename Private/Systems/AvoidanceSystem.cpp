@@ -3,8 +3,6 @@
 #include "Utils/Utils.h"
 #include "Components/Components.h"
 
-constexpr float MAX_AVOID_FORCE = 55.0f;
-
 // TODO: it needed to be add a more complex container with hash map + min map to hold all nearset obstacles
 void AvoidanceSystem::update(float deltaTime)
 {
@@ -58,7 +56,7 @@ sf::Vector2f AvoidanceSystem::CollosionAvoidance(ManageAvoidanceParams& params)
         avoidance.x = ahead.x - mostThreatening->center.x;
         avoidance.y = ahead.y - mostThreatening->center.y;
         avoidance = normalize(avoidance);
-        avoidance *= MAX_AVOID_FORCE;
+        avoidance *= params.avoidComp->maxAvoidForce;
     }
     else {
         avoidance *= 0;

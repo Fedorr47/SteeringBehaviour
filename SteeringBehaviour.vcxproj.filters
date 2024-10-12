@@ -111,6 +111,9 @@
     <ClCompile Include="Private\Systems\ShapeSystem.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Private\Systems\ObstaclesSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\Systems\MovementSystem.h">

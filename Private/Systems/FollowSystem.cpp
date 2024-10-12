@@ -28,7 +28,6 @@ void FollowSystem::update(float deltaTime)
 
 void FollowSystem::ManageFollow(ManageFollowParams& params)
 {
-	params.velComp->steering = sf::Vector2f(0.0f, 0.0f);
 	std::vector<sf::Vector2f> steerings;
 	for (MovementBehavior* behavior : params.chasComp->Behaviors)
 	{
@@ -68,8 +67,8 @@ void FollowSystem::ManageFollow(ManageFollowParams& params)
 	{
 		params.velComp->steering += steerings[i];
 	}
-	auto averageDirection = params.velComp->steering * (1.0f / steerings.size());
-	params.velComp->steering = averageDirection * (1.0f - 0.9f); // TODO - move to utils and make this part general
+	//auto averageDirection = params.velComp->steering * (1.0f / steerings.size());
+	//params.velComp->steering += averageDirection * (1.0f - 0.9f); // TODO - move to utils and make this part general
 }
 
 sf::Vector2f FollowSystem::Wander(ManageFollowParams& params)

@@ -24,6 +24,6 @@ public:
 private:
     entt::registry registry;
 
-    std::unordered_map<std::string, std::unique_ptr<BaseSystem>> Systems;
+    std::vector<std::pair<std::string, std::unique_ptr<BaseSystem>>> Systems;
     std::unique_ptr<RenderSystem> RenderSys;
 };

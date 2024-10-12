@@ -15,6 +15,7 @@ void MovementSystem::update(float deltaTime)
         {
             velocity.velocity = truncate(velocity.velocity + truncate(velocity.steering, 100.0f) / mass.mass, velocity.maxSpeed);
             position.position = position.position + velocity.velocity * deltaTime;
+            velocity.steering = sf::Vector2f(0.0f, 0.0f);
         }
         else
         {
@@ -35,6 +36,5 @@ void MovementSystem::update(float deltaTime)
         else if (position.position.y + 50 > windowSize.y) {
             position.position.y = windowSize.y - 50;
         }
-
     }
 }

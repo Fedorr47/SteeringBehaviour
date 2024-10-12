@@ -1,5 +1,20 @@
 #pragma once
 
+#include "BaseSystem.h"
+
+struct ObstacleComponent;
+struct PositionComponent;
+struct AvoidanceComponent;
+
+class ObstaclesSystem : public BaseSystem
+{
+public:
+    ObstaclesSystem(entt::registry& registry) :
+        BaseSystem(registry)
+    {}
+
+    virtual void update(float deltaTime) override;
+};
 
 /*
 Obstacle CollisionSystem::findMostThreateningObstacle()

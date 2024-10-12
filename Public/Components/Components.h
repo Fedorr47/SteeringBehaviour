@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <SFML/Graphics.hpp>
 #include <queue>
+#include <unordered_map>
 
 #include "MovementBehaviour.h"
 
@@ -44,19 +45,18 @@ struct ChasingComponent
 
 struct ObstacleComponent
 {
-    sf::Vector2f center;
     float radius{ 0.0f };
+    sf::Vector2f center; 
 };
 
 struct AvoidanceComponent
 {
-    std::priority_queue<
-        ObstacleComponent*,
-        std::vector<ObstacleComponent*>,
-        decltype([](const ObstacleComponent& a, const ObstacleComponent& b) { return a.radius < b.radius; })>
-        Obstacles;
+    float radiusToSee{ 0.0f };
+    ObstacleComponent* theNearstOne{ nullptr };
 };
 
+// Global data
+extern std::unordered_map<int, ObstacleComponent*> allObstacles;
 
 /*
 template <MoveBehaviourType T, typename = void>

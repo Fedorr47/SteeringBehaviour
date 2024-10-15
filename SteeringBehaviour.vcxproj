@@ -222,6 +222,7 @@
     <ClCompile Include="Private\Systems\InputSystem.cpp" />
     <ClCompile Include="Private\Systems\MovementSystem.cpp" />
     <ClCompile Include="Private\Systems\ObstaclesSystem.cpp" />
+    <ClCompile Include="Private\Systems\PathSystem.cpp" />
     <ClCompile Include="Private\Systems\RenderSystem.cpp" />
     <ClCompile Include="Private\Systems\ShapeSystem.cpp" />
     <ClCompile Include="Private\ThirdParty\imgui\imgui-SFML.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="Public\Systems\InputSystem.h" />
     <ClInclude Include="Public\Systems\MovementSystem.h" />
     <ClInclude Include="Public\Systems\ObstaclesSystem.h" />
+    <ClInclude Include="Public\Systems\PathSystem.h" />
     <ClInclude Include="Public\Systems\RealInputHandler.h" />
     <ClInclude Include="Public\Systems\RenderSystem.h" />
     <ClInclude Include="Public\Systems\ShapeSystem.h" />

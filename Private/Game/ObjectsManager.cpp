@@ -37,50 +37,64 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 
 	// Enemies
 	
-	auto Enemy = registry.create();
+	auto Wnaderer = registry.create();
 
-	registry.emplace<PositionComponent>(Enemy, sf::Vector2f(200.0f, 200.0f));
-	registry.emplace<VelocityComponent>(Enemy, sf::Vector2f(0.0f, -10.0f), 5.0f, 5.0f);
-	registry.emplace<MassComponent>(Enemy, 10.0f);
+	registry.emplace<PositionComponent>(Wnaderer, sf::Vector2f(200.0f, 200.0f));
+	registry.emplace<VelocityComponent>(Wnaderer, sf::Vector2f(0.0f, -10.0f), 5.0f, 5.0f);
+	registry.emplace<MassComponent>(Wnaderer, 10.0f);
 
-	registry.emplace<ShapeComponent>(Enemy, CreateTriangle(sf::Color::Red, 20.0f, 25.0f));
+	registry.emplace<ShapeComponent>(Wnaderer, CreateTriangle(sf::Color::Red, 20.0f, 25.0f));
 
 	registry.emplace<ChasingComponent>(
-		Enemy
+		Wnaderer
 	);
-	registry.get<ChasingComponent>(Enemy).Behaviors.push_back(new WanderBehavior(
+	registry.get<ChasingComponent>(Wnaderer).Behaviors.push_back(new WanderBehavior(
 		10.0f,
 		WanderRanges(100.0f, 100.0f),
 		1000.0f,
 		100.0f,
 		45.0f));
 
-	entities.push_back(Enemy);
+	entities.push_back(Wnaderer);
 	
 
-	auto Enemy1 = registry.create();
+	auto Pursuiter = registry.create();
 
-	registry.emplace<PositionComponent>(Enemy1, sf::Vector2f(250.0f, 250.0f));
-	registry.emplace<VelocityComponent>(Enemy1, sf::Vector2f(0.0f, 0.0f), 100.0f, 100.0f);
-	registry.emplace<MassComponent>(Enemy1, 2.0f);
-	registry.emplace<AvoidanceComponent>(Enemy1, 200.0f, 50.0f);
+	registry.emplace<PositionComponent>(Pursuiter, sf::Vector2f(250.0f, 250.0f));
+	registry.emplace<VelocityComponent>(Pursuiter, sf::Vector2f(0.0f, 0.0f), 100.0f, 100.0f);
+	registry.emplace<MassComponent>(Pursuiter, 2.0f);
+	registry.emplace<AvoidanceComponent>(Pursuiter, 200.0f, 50.0f);
 
-	registry.emplace<ShapeComponent>(Enemy1, CreateTriangle(sf::Color::Red, 20.0f, 25.0f));
+	registry.emplace<ShapeComponent>(Pursuiter, CreateTriangle(sf::Color::Red, 20.0f, 25.0f));
 
 	registry.emplace<ChasingComponent>(
-		Enemy1
+		Pursuiter
 	);
 
-	registry.get<ChasingComponent>(Enemy1).Behaviors.push_back(new PursuitBehavior(
+	registry.get<ChasingComponent>(Pursuiter).Behaviors.push_back(new PursuitBehavior(
 		player,
 		7.0f));
 
-	registry.get<ChasingComponent>(Enemy1).Behaviors.push_back(new EvadeBehavior(
-		Enemy,
+	registry.get<ChasingComponent>(Pursuiter).Behaviors.push_back(new EvadeBehavior(
+		Wnaderer,
 		150.0f));
 
 
-	entities.push_back(Enemy1);
+	entities.push_back(Pursuiter);
+
+	auto Follower = registry.create();
+
+	registry.emplace<PositionComponent>(Follower, sf::Vector2f(250.0f, 250.0f));
+	registry.emplace<VelocityComponent>(Follower, sf::Vector2f(0.0f, 0.0f), 100.0f, 100.0f);
+	registry.emplace<MassComponent>(Follower, 2.0f);
+	registry.emplace<ShapeComponent>(Follower, CreateTriangle(sf::Color::Green, 20.0f, 25.0f));
+
+	PathComponent path({
+		sf::Vector2f(400.0f, 400.0f),
+		sf::Vector2f(600.0f, 400.0f),
+		sf::Vector2f(400.0f, 600.0f) });
+	path.distanceToChangeNode = 10.0f;
+	registry.emplace<PathComponent>(Follower, path);
 
 }
 

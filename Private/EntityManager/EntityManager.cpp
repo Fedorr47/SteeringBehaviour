@@ -2,6 +2,7 @@
 #include "Utils/DebugInfo.h"
 #include "EntityManager/EntityManager.h"
 #include "Systems/MovementSystem.h"
+#include "Systems/PathSystem.h"
 #include "Systems/InputSystem.h"
 #include "Systems/FollowSystem.h"
 #include "Systems/ShapeSystem.h"
@@ -17,6 +18,7 @@ EntityManager::EntityManager(const GameSettings& settings, const InputHandler& i
     Systems.push_back({ "FollowSystem", std::make_unique<FollowSystem>(registry) });
     Systems.push_back({ "ObstaclesSystem", std::make_unique<ObstaclesSystem>(registry) });
     Systems.push_back({ "AvoidanceSystem", std::make_unique<AvoidanceSystem>(registry) });
+    Systems.push_back({ "PathSystem", std::make_unique<PathSystem>(registry) });
     Systems.push_back({ "ShapeSystem", std::make_unique<ShapeSystem>(registry) });
 
     RenderSys = std::make_unique<RenderSystem>(registry);

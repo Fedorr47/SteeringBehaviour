@@ -7,6 +7,7 @@ enum class MoveBehaviourType : char
     Wander,
     Pursuit,
     Evade,
+    Path,
     NONE
 };
 
@@ -15,7 +16,8 @@ inline static const std::unordered_map<MoveBehaviourType, const std::string> Mov
     {MoveBehaviourType::Flee,"Flee"},
     {MoveBehaviourType::Wander,"Wander"},
     {MoveBehaviourType::Pursuit,"Pursuit"},
-    {MoveBehaviourType::Evade,"Evade"}
+    {MoveBehaviourType::Evade,"Evade"},
+    {MoveBehaviourType::Path,"Path"}
 };
 
 struct WanderRanges
@@ -106,4 +108,15 @@ struct WanderBehavior : public MovementBehavior
     float circleDistance{ 0.0f };
     float angleChange{ 0.0f };
     float wanderAngle{ 0.0f };
+};
+
+struct PathBehavior : public SeekBehavior
+{
+    PathBehavior(
+        entt::entity object,
+        float slowingRadius) :
+        SeekBehavior(object, slowingRadius)
+    {
+        type = MoveBehaviourType::Path;
+    }
 };

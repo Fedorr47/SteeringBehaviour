@@ -56,6 +56,18 @@ struct AvoidanceComponent
     ObstacleComponent* theNearstOne{ nullptr };
 };
 
+struct PathComponent {
+    PathComponent(std::initializer_list<sf::Vector2f> initList) {
+        for (auto vec : initList)
+        {
+            nodes.insert({entt::null, vec});
+        }
+    }
+    std::vector<std::pair<entt::entity, sf::Vector2f>> nodes;
+    float distanceToChangeNode{ 0.0f };
+    int currentNode{ -1 };
+};
+
 // Global data
 extern std::unordered_map<int, ObstacleComponent*> allObstacles;
 

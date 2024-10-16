@@ -14,6 +14,7 @@ public:
 
     entt::entity createStub();
 
+    void init();
     void update(float deltaTime);
     void render(sf::RenderWindow& window);
 

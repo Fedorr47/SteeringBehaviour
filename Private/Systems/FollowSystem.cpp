@@ -29,13 +29,15 @@ void FollowSystem::update(float deltaTime)
 void FollowSystem::ManageFollow(ManageFollowParams& params)
 {
 	std::vector<sf::Vector2f> steerings;
-	for (MovementBehavior* behavior : params.chasComp->Behaviors)
+	for (auto behavior : params.chasComp->Behaviors)
 	{
-		params.currentBehavior = behavior;
+		params.currentBehavior = behavior.get();
 		sf::Vector2f steering;
 		switch (behavior->type)
 		{
 		case MoveBehaviourType::Seek:
+			[[fallthrough]];
+		case MoveBehaviourType::Path:
 			params.targetPos = params.reg->get<PositionComponent>(behavior->object).position;
 			steering = Seek(params);
 			break;

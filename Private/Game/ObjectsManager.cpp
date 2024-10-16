@@ -48,7 +48,7 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 	registry.emplace<ChasingComponent>(
 		Wnaderer
 	);
-	registry.get<ChasingComponent>(Wnaderer).Behaviors.push_back(new WanderBehavior(
+	registry.get<ChasingComponent>(Wnaderer).Behaviors.push_back(std::make_shared<WanderBehavior>(
 		10.0f,
 		WanderRanges(100.0f, 100.0f),
 		1000.0f,
@@ -71,11 +71,11 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 		Pursuiter
 	);
 
-	registry.get<ChasingComponent>(Pursuiter).Behaviors.push_back(new PursuitBehavior(
+	registry.get<ChasingComponent>(Pursuiter).Behaviors.push_back(std::make_shared<PursuitBehavior>(
 		player,
 		7.0f));
 
-	registry.get<ChasingComponent>(Pursuiter).Behaviors.push_back(new EvadeBehavior(
+	registry.get<ChasingComponent>(Pursuiter).Behaviors.push_back(std::make_shared<EvadeBehavior>(
 		Wnaderer,
 		150.0f));
 
@@ -92,10 +92,11 @@ void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::
 	PathComponent path({
 		sf::Vector2f(400.0f, 400.0f),
 		sf::Vector2f(600.0f, 400.0f),
-		sf::Vector2f(400.0f, 600.0f) });
-	path.distanceToChangeNode = 10.0f;
+		sf::Vector2f(400.0f, 600.0f),
+		sf::Vector2f(200.0f, 100.0f),
+		sf::Vector2f(800.0f, 650.0f) });
+	path.distanceToChangeNode = 25.0f;
 	registry.emplace<PathComponent>(Follower, path);
-
 }
 
 sf::ConvexShape ObjectManager::CreateSquare(sf::Color color, float width, float height)

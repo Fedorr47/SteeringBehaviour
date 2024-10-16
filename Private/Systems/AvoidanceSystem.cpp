@@ -49,7 +49,7 @@ sf::Vector2f AvoidanceSystem::CollosionAvoidance(ManageAvoidanceParams& params)
     auto ahead = position + normalize(velocity) * dynamic_length;
     auto ahead2 = ahead * 0.5f;
 
-    ObstacleComponent* mostThreatening = params.avoidComp->theNearstOne;
+    auto mostThreatening = params.avoidComp->theNearstOne;
 
     sf::Vector2f avoidance;
     if (mostThreatening != nullptr) {

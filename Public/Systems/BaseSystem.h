@@ -10,6 +10,7 @@ public:
         registry(registry)
     {}
 
+    virtual void init() {};
     virtual void update(float deltaTime) = 0;
     std::shared_ptr<DebugInfo> debugInfo;
 

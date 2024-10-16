@@ -9,7 +9,7 @@
 #include "Systems/ObstaclesSystem.h"
 #include "Systems/AvoidanceSystem.h"
 
-std::unordered_map<int, ObstacleComponent*> allObstacles;
+std::unordered_map<int, std::shared_ptr<ObstacleComponent>> allObstacles;
 
 EntityManager::EntityManager(const GameSettings& settings, const InputHandler& inputHandler, std::shared_ptr<DebugInfo> debugInfo)
 {
@@ -32,6 +32,14 @@ entt::entity EntityManager::createEntity()
 {
     auto entity = registry.create();
     return entity;
+}
+
+void EntityManager::init()
+{
+    for (auto& [_, system] : Systems)
+    {
+        system->init();
+    }
 }
 
 void EntityManager::update(float deltaTime)

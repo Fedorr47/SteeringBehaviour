@@ -40,7 +40,7 @@ struct FocusComponent
 
 struct ChasingComponent
 {
-    std::vector<MovementBehavior*> Behaviors;
+    std::vector<std::shared_ptr<MovementBehavior>> Behaviors;
 };
 
 struct ObstacleComponent
@@ -53,23 +53,24 @@ struct AvoidanceComponent
 {
     float radiusToSee{ 0.0f };
     float maxAvoidForce{ 0.0f };
-    ObstacleComponent* theNearstOne{ nullptr };
+    std::shared_ptr<ObstacleComponent> theNearstOne{ nullptr };
 };
 
 struct PathComponent {
     PathComponent(std::initializer_list<sf::Vector2f> initList) {
         for (auto vec : initList)
         {
-            nodes.insert({entt::null, vec});
+            nodes.push_back({entt::null, vec});
         }
     }
-    std::vector<std::pair<entt::entity, sf::Vector2f>> nodes;
+    std::vector<NodeOfPath> nodes;
     float distanceToChangeNode{ 0.0f };
     int currentNode{ -1 };
+    std::shared_ptr<MovementBehavior> pathBehavior{nullptr};
 };
 
 // Global data
-extern std::unordered_map<int, ObstacleComponent*> allObstacles;
+extern std::unordered_map<int, std::shared_ptr<ObstacleComponent>> allObstacles;
 
 /*
 template <MoveBehaviourType T, typename = void>

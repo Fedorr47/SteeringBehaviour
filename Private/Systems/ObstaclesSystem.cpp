@@ -12,7 +12,7 @@ void ObstaclesSystem::update(float deltaTime)
         
         obstacle.center = position.position;
         int id = static_cast<int>(entity);
-        allObstacles[id] = &obstacle;
+        allObstacles[id] = std::make_shared<ObstacleComponent>(obstacle);
     };
 }
 

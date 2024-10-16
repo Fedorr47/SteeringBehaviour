@@ -11,4 +11,5 @@ public:
     {}
 
     virtual void update(float deltaTime) override;
+    virtual void init() override;
 };

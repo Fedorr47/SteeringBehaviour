@@ -120,3 +120,9 @@ struct PathBehavior : public SeekBehavior
         type = MoveBehaviourType::Path;
     }
 };
+
+struct NodeOfPath
+{
+    entt::entity id{ entt::null };
+    sf::Vector2f position;
+};

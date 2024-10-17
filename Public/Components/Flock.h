@@ -23,7 +23,7 @@ struct FlockLeader : public FlockActor
 	{
 		role = FlockRole::Leader;
 	}
-	std::vector<std::shared_ptr<FlockFollower>> followers
+	std::vector<std::shared_ptr<FlockFollower>> followers;
 };
 
 struct FlockFollower : public FlockActor

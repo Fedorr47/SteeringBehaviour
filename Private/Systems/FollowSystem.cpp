@@ -84,7 +84,6 @@ void FollowSystem::ManageFollow(ManageFollowParams& params)
 	}
 
 	params.velComp->steering += finalSteering;
-	
 }
 
 sf::Vector2f FollowSystem::Wander(ManageFollowParams& params)

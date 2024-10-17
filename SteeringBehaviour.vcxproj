@@ -235,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\Components\Components.h" />
+    <ClInclude Include="Public\Components\Flock.h" />
     <ClInclude Include="Public\Components\MovementBehaviour.h" />
     <ClInclude Include="Public\EntityManager\EntityManager.h" />
     <ClInclude Include="Public\Game\Game.h" />

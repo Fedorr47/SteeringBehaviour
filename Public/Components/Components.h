@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "MovementBehaviour.h"
+#include "Flock.h"
 
 struct PositionComponent
 {
@@ -67,6 +68,11 @@ struct PathComponent {
     float distanceToChangeNode{ 0.0f };
     int currentNode{ -1 };
     std::shared_ptr<MovementBehavior> pathBehavior{nullptr};
+};
+
+struct FlockComponent
+{
+    std::shared_ptr<FlockActor> actor;
 };
 
 // Global data

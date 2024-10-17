@@ -16,6 +16,9 @@ struct FlockActor
 	FlockRole role;
 };
 
+struct FlockFollower;
+struct FlockLeader;
+
 struct FlockLeader : public FlockActor
 {
 	FlockLeader() :

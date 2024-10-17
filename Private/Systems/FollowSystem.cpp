@@ -29,6 +29,9 @@ void FollowSystem::update(float deltaTime)
 void FollowSystem::ManageFollow(ManageFollowParams& params)
 {
 	std::vector<sf::Vector2f> steerings;
+	sf::Vector2f finalSteering(0.0f, 0.0f);
+	float totalWeight = 0.0f;
+
 	for (auto behavior : params.chasComp->Behaviors)
 	{
 		params.currentBehavior = behavior.get();
@@ -65,12 +68,23 @@ void FollowSystem::ManageFollow(ManageFollowParams& params)
 		params.info.velocity = params.velComp->velocity;
 		debugInfo->chasingEntities[params.info.entityID] = params.info;
 	}
-	for (int i = 0; i < steerings.size(); ++i)
-	{
-		params.velComp->steering += steerings[i];
+
+	for (const auto& steering : steerings) {
+		finalSteering += steering;
+		totalWeight += 1.0f;
 	}
-	//auto averageDirection = params.velComp->steering * (1.0f / steerings.size());
-	//params.velComp->steering += averageDirection * (1.0f - 0.9f); // TODO - move to utils and make this part general
+
+	if (totalWeight > 0.0f) {
+		finalSteering /= totalWeight;
+	}
+
+	if (isNearlyEqual(getLength(finalSteering), 0.1f)) 
+	{
+		finalSteering = sf::Vector2f(0.0f, 0.0f);
+	}
+
+	params.velComp->steering += finalSteering;
+	
 }
 
 sf::Vector2f FollowSystem::Wander(ManageFollowParams& params)
@@ -158,8 +172,7 @@ sf::Vector2f FollowSystem::SeekOrFlee(ManageFollowParams& params, Compare comp, 
 		desiredVelocity *= -1;
 	}
 
-	auto steering = desiredVelocity - params.velComp->velocity;
-	return steering;
+	return desiredVelocity - params.velComp->velocity;
 }
 
 sf::Vector2f FollowSystem::Seek(ManageFollowParams& params)

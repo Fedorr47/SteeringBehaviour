@@ -28,3 +28,13 @@ sf::Vector2f& operator*(sf::Vector2f& lhs, T val)
 }
 
 float randomFloat(float min, float max);
+
+template <std::floating_point T>
+inline bool isNearlyEqual(T x, T y);
+
+template<std::floating_point T>
+inline bool isNearlyEqual(T x, T y)
+{
+    const T epsilon = 0.000001;
+    return std::abs(x - y) <= epsilon * std::abs(x);
+}

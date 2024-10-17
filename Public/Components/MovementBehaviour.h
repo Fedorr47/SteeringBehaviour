@@ -36,7 +36,9 @@ struct MovementBehavior
         object(object),
         type(type),
         slowingRadius(slowingRadius)
-    {}
+    {
+        type = MoveBehaviourType::NONE;
+    }
     entt::entity object;
     float slowingRadius{ 0 };
 };

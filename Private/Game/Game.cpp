@@ -24,7 +24,6 @@ Game::Game()
     objectManager = std::make_unique<ObjectManager>();
 
     objectManager->initObjects(*entityManager, active_entity);
-    entityManager->init();
 
     ImGui::SFML::Init(*window->getRenderWindow());
 }

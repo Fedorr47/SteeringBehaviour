@@ -117,6 +117,9 @@
     <ClCompile Include="Private\Systems\PathSystem.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Private\Systems\FlockSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Public\Systems\MovementSystem.h">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="Public\Components\Flock.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\Systems\FlockSystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

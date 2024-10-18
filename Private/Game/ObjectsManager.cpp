@@ -135,12 +135,64 @@ void Pursuit_Evade(EntityManager& entityManager, std::vector<entt::entity>& enti
 
 	entities.push_back(Pursuiter);
 }
+
+void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, ObjectManager& mngr)
+{
+	auto& registry = entityManager.getRegistry();
+	auto player = entityManager.createEntity();
+
+	registry.emplace<PositionComponent>(player, sf::Vector2f(600.0f, 400.0f));
+	registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 300.0f, 300.0f);
+	registry.emplace<MassComponent>(player, 100.0f);
+	registry.emplace<ShapeComponent>(player, mngr.CreateSquare(sf::Color::Green, 25.0f, 25.0f));
+	registry.emplace<ControlComponent>(player, false, false);
+	auto leaderPtr = std::make_shared<FlockLeader>(player);
+	registry.emplace<FlockComponent>(player, leaderPtr);
+
+	entities.push_back(player);
+
+	/// Flock Actors
+	auto FlockActor1 = registry.create();
+	auto FlockActor2 = registry.create();
+	auto FlockActor3 = registry.create();
+
+	registry.emplace<PositionComponent>(FlockActor1, sf::Vector2f(570.0f, 450.0f));
+	registry.emplace<VelocityComponent>(FlockActor1, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
+	registry.emplace<MassComponent>(FlockActor1, 5.0f);
+	registry.emplace<ShapeComponent>(FlockActor1, mngr.CreateTriangle(sf::Color::Red, 20.0f, 25.0f));
+	registry.emplace<FlockComponent>(FlockActor1, std::make_shared<FlockFollower>(FlockActor1, player), 80.0f, 30.0f);
+
+	registry.emplace<PositionComponent>(FlockActor2, sf::Vector2f(600.0f, 450.0f));
+	registry.emplace<VelocityComponent>(FlockActor2, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
+	registry.emplace<MassComponent>(FlockActor2, 5.0f);
+	registry.emplace<ShapeComponent>(FlockActor2, mngr.CreateTriangle(sf::Color::Yellow, 20.0f, 25.0f));
+	registry.emplace<FlockComponent>(FlockActor2, std::make_shared<FlockFollower>(FlockActor2, player), 80.0f, 30.0f);
+
+	registry.emplace<PositionComponent>(FlockActor3, sf::Vector2f(630.0f, 450.0f));
+	registry.emplace<VelocityComponent>(FlockActor3, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
+	registry.emplace<MassComponent>(FlockActor3, 5.0f);
+	registry.emplace<ShapeComponent>(FlockActor3, mngr.CreateTriangle(sf::Color::Blue, 20.0f, 25.0f));
+	registry.emplace<FlockComponent>(FlockActor3, std::make_shared<FlockFollower>(FlockActor3, player), 80.0f, 30.0f);
+
+	leaderPtr->followers.push_back(FlockActor1);
+	leaderPtr->followers.push_back(FlockActor2);
+	leaderPtr->followers.push_back(FlockActor3);
+
+	entities.push_back(FlockActor1);
+	entities.push_back(FlockActor2);
+	entities.push_back(FlockActor3);
+
+	/// End Flock Actors
+}
+
 // end test methods
 
 void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::entity>& entities)
 {
 	//Wander_Pursuit_Path_Plyaer(entityManager, entities, *this);
-	Pursuit_Evade(entityManager, entities, *this);
+	Flock(entityManager, entities, *this);
+
+	entityManager.init();
 }
 
 sf::ConvexShape ObjectManager::CreateSquare(sf::Color color, float width, float height)

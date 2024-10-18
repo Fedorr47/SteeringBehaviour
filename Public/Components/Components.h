@@ -73,6 +73,8 @@ struct PathComponent {
 struct FlockComponent
 {
     std::shared_ptr<FlockActor> actor;
+    float leaderBehindDist{ 0.0f };
+    float leaderSightRadius{ 0.0f };
 };
 
 // Global data

@@ -218,6 +218,7 @@
     <ClCompile Include="Private\Game\Game.cpp" />
     <ClCompile Include="Private\Game\ObjectsManager.cpp" />
     <ClCompile Include="Private\Systems\AvoidanceSystem.cpp" />
+    <ClCompile Include="Private\Systems\FlockSystem.cpp" />
     <ClCompile Include="Private\Systems\FollowSystem.cpp" />
     <ClCompile Include="Private\Systems\InputSystem.cpp" />
     <ClCompile Include="Private\Systems\MovementSystem.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="Public\Settings\GameSettings.h" />
     <ClInclude Include="Public\Systems\BaseSystem.h" />
     <ClInclude Include="Public\Systems\AvoidanceSystem.h" />
+    <ClInclude Include="Public\Systems\FlockSystem.h" />
     <ClInclude Include="Public\Systems\FollowSystem.h" />
     <ClInclude Include="Public\Systems\InputHandler.h" />
     <ClInclude Include="Public\Systems\InputSystem.h" />

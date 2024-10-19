@@ -169,7 +169,6 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 		leaderPtr->followers.push_back(followerPtr);
 		entities.push_back(entity);
 	}
-
 	/// End Flock Actors
 }
 
@@ -177,9 +176,7 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 
 void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::entity>& entities)
 {
-	//Wander_Pursuit_Path_Plyaer(entityManager, entities, *this);
-	Flock(entityManager, entities, *this);
-
+	Flock(entityManager, entities, *this); // TODO: need to replace to file reading  
 	entityManager.init();
 }
 

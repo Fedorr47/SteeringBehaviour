@@ -29,19 +29,24 @@ struct FlockLeader : public FlockActor
 	{
 		role = FlockRole::Leader;
 	}
-	std::vector<entt::entity> followers;
+	std::vector<std::shared_ptr<FlockFollower>> followers;
 };
 
 struct FlockFollower : public FlockActor
 {
-	FlockFollower(entt::entity inId, entt::entity leaderId) :
+	FlockFollower(
+		entt::entity inId, 
+		entt::entity inLeaderId,
+		std::shared_ptr<FlockLeader> inLeaderPtr) :
 		FlockActor(inId),
-		leader(leaderId)
+		leaderId(inLeaderId)
 	{
+		leaderPtr = inLeaderPtr;
 		role = FlockRole::Follower;
 	}
+	std::weak_ptr<FlockLeader> leaderPtr;
 	std::shared_ptr<MovementBehavior> actualBehavior;
 	std::shared_ptr<PursuitBehavior> arriveBehavior;
 	std::shared_ptr<EvadeBehavior> evadeBehavior;
-	entt::entity leader;
+	entt::entity leaderId;
 };

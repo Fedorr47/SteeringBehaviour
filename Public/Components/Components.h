@@ -75,6 +75,8 @@ struct FlockComponent
     std::shared_ptr<FlockActor> actor;
     float leaderBehindDist{ 0.0f };
     float leaderSightRadius{ 0.0f };
+    float separationRadius{ 0.0f };
+    float maxSeparation{ 0.0f };
 };
 
 // Global data

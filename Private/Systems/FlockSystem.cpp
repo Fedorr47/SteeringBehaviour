@@ -12,7 +12,7 @@ void FlockSystem::update(float deltaTime)
 		if (flock.actor->role == FlockRole::Follower)
 		{
 			FlockFollower* follower = static_cast<FlockFollower*>(flock.actor.get());
-			auto& leaderPosition = registry.get<PositionComponent>(follower->leader);
+			auto& leaderPosition = registry.get<PositionComponent>(follower->leaderId);
 
 			sf::Vector2f tv = velocity.velocity;
 			sf::Vector2f force;
@@ -33,22 +33,32 @@ void FlockSystem::update(float deltaTime)
 			{
 				registry.get<ChasingComponent>(flock.actor->id).Behaviors[0] = follower->arriveBehavior;
 			}
-			velocity.steering += separation();
+			
+			FlockLeader* leaderPtr = follower->leaderPtr.lock().get();
+
+			velocity.steering += separation(
+				flock,
+				leaderPtr,
+				follower,
+				position.position);
 		}
 	}
 }
 
-sf::Vector2f FlockSystem::separation()
+sf::Vector2f FlockSystem::separation(
+	FlockComponent& flockComp,
+	const FlockLeader* leader,
+	FlockFollower* follower,
+	sf::Vector2f followerPos)
 {
 	sf::Vector2f force;
 	int neighborCount = 0;
 
-	/*/
-	for (var i : int = 0; i < Game.instance.boids.length; i++) {
-		var b : Boid = Game.instance.boids[i];
-		if (b != this && distance(b, this) <= SEPARATION_RADIUS) {
-			force.x += b.position.x - this.position.x;
-			force.y += b.position.y - this.position.y;
+	for (auto anotherFollower : leader->followers) {
+		auto& anotherFollowerPos = registry.get<PositionComponent>(anotherFollower->id).position;
+		if (follower->id != anotherFollower->id && distance(anotherFollowerPos, followerPos) <= flockComp.separationRadius) {
+			force.x += anotherFollowerPos.x - followerPos.x;
+			force.y += anotherFollowerPos.y - followerPos.y;
 			neighborCount++;
 		}
 	}
@@ -60,8 +70,7 @@ sf::Vector2f FlockSystem::separation()
 	}
 
 	normalize(force);
-	force *= MAX_SEPARATION;
-	*/
+	force *= flockComp.maxSeparation;
 
 	return force;
 }
@@ -80,8 +89,8 @@ void FlockSystem::init()
 			registry.emplace<ChasingComponent>(
 				flock.actor->id
 			);
-			follower->evadeBehavior = std::make_shared<EvadeBehavior>(follower->leader, flock.leaderBehindDist+1);
-			follower->arriveBehavior = std::make_shared<PursuitBehavior>(follower->leader, flock.leaderBehindDist-1);
+			follower->evadeBehavior = std::make_shared<EvadeBehavior>(follower->leaderId, flock.leaderBehindDist+1);
+			follower->arriveBehavior = std::make_shared<PursuitBehavior>(follower->leaderId, flock.leaderBehindDist-1);
 			follower->actualBehavior = follower->arriveBehavior;
 
 			registry.get<ChasingComponent>(flock.actor->id).Behaviors.push_back(follower->actualBehavior);

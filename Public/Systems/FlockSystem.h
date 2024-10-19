@@ -11,7 +11,12 @@ public:
 	{}
 
 	virtual void update(float deltaTime) override;
-	sf::Vector2f separation();
+	sf::Vector2f separation(
+		FlockComponent& flockComp,
+		const FlockLeader* leader,
+		FlockFollower* follower,
+		sf::Vector2f followerPos
+	);
 	virtual void init() override;
 	bool isOnLeaderSight(
 		sf::Vector2f leaderAhead,

@@ -27,7 +27,6 @@ void FlockSystem::update(float deltaTime)
 			if (isOnLeaderSight(ahead, leaderPosition.position, position.position, flock.leaderSightRadius))
 			{
 				registry.get<ChasingComponent>(flock.actor->id).Behaviors[0] = follower->evadeBehavior;
-				//force = force + evade(leader);
 			}
 			else
 			{

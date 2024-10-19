@@ -152,38 +152,23 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 	entities.push_back(player);
 
 	/// Flock Actors
-	auto FlockActor1 = registry.create();
-	auto FlockActor2 = registry.create();
-	auto FlockActor3 = registry.create();
+	std::vector<sf::Color> colors = { sf::Color::Red, sf::Color::Yellow, sf::Color::Blue, sf::Color::Magenta };
+	float x = 400.0f;
+	for (size_t i = 0; i < 10; ++i) {
+		auto entity = registry.create();
+		x += 30.0f;
+		auto pos = sf::Vector2f(x, 450.0f);
+		registry.emplace<PositionComponent>(entity, pos);
+		registry.emplace<VelocityComponent>(entity, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
+		registry.emplace<MassComponent>(entity, 5.0f);
+		registry.emplace<ShapeComponent>(entity, mngr.CreateTriangle(colors[i%colors.size()], 20.0f, 25.0f));
 
-	registry.emplace<PositionComponent>(FlockActor1, sf::Vector2f(570.0f, 450.0f));
-	registry.emplace<VelocityComponent>(FlockActor1, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
-	registry.emplace<MassComponent>(FlockActor1, 5.0f);
-	registry.emplace<ShapeComponent>(FlockActor1, mngr.CreateTriangle(sf::Color::Red, 20.0f, 25.0f));
-	auto FlockActor1Ptr = std::make_shared<FlockFollower>(FlockActor1, player, leaderPtr);
-	registry.emplace<FlockComponent>(FlockActor1, FlockActor1Ptr, 80.0f, 30.0f, 30.0f, 40.0f);
+		auto followerPtr = std::make_shared<FlockFollower>(entity, player, leaderPtr);
+		registry.emplace<FlockComponent>(entity, followerPtr, 80.0f, 30.0f, 30.0f, 40.0f);
 
-	registry.emplace<PositionComponent>(FlockActor2, sf::Vector2f(600.0f, 450.0f));
-	registry.emplace<VelocityComponent>(FlockActor2, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
-	registry.emplace<MassComponent>(FlockActor2, 5.0f);
-	registry.emplace<ShapeComponent>(FlockActor2, mngr.CreateTriangle(sf::Color::Yellow, 20.0f, 25.0f));
-	auto FlockActor2Ptr = std::make_shared<FlockFollower>(FlockActor2, player, leaderPtr);
-	registry.emplace<FlockComponent>(FlockActor2, FlockActor2Ptr, 80.0f, 30.0f, 30.0f, 40.0f);
-
-	registry.emplace<PositionComponent>(FlockActor3, sf::Vector2f(630.0f, 450.0f));
-	registry.emplace<VelocityComponent>(FlockActor3, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
-	registry.emplace<MassComponent>(FlockActor3, 5.0f);
-	registry.emplace<ShapeComponent>(FlockActor3, mngr.CreateTriangle(sf::Color::Blue, 20.0f, 25.0f));
-	auto FlockActor3Ptr = std::make_shared<FlockFollower>(FlockActor3, player, leaderPtr);
-	registry.emplace<FlockComponent>(FlockActor3, FlockActor3Ptr, 80.0f, 30.0f, 30.0f, 40.0f);
-
-	leaderPtr->followers.push_back(FlockActor1Ptr);
-	leaderPtr->followers.push_back(FlockActor2Ptr);
-	leaderPtr->followers.push_back(FlockActor3Ptr);
-
-	entities.push_back(FlockActor1);
-	entities.push_back(FlockActor2);
-	entities.push_back(FlockActor3);
+		leaderPtr->followers.push_back(followerPtr);
+		entities.push_back(entity);
+	}
 
 	/// End Flock Actors
 }

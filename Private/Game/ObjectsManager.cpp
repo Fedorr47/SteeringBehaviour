@@ -144,7 +144,7 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 	registry.emplace<PositionComponent>(player, sf::Vector2f(600.0f, 400.0f));
 	registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 300.0f, 300.0f);
 	registry.emplace<MassComponent>(player, 100.0f);
-	auto shape = mngr.CreateSquare(sf::Color::Green, 25.0f, 25.0f);
+	auto shape = mngr.CreateTriangle(sf::Color::White, 25.0f, 25.0f);
 	registry.emplace<ShapeComponent>(player, shape);
 	registry.emplace<ControlComponent>(player, false, false);
 	auto leaderPtr = std::make_shared<FlockLeader>(player);
@@ -155,7 +155,7 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 	/// Flock Actors
 	std::vector<sf::Color> colors = { sf::Color::Red, sf::Color::Yellow, sf::Color::Blue, sf::Color::Magenta };
 	float x = 400.0f;
-	for (size_t i = 0; i < 2; ++i) {
+	for (size_t i = 0; i < 5; ++i) {
 		auto entity = registry.create();
 		x += 30.0f;
 		auto pos = sf::Vector2f(x, 450.0f);
@@ -172,6 +172,25 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 		entities.push_back(entity);
 	}
 	/// End Flock Actors
+
+	/// Obstacles Actors
+	sf::Vector2f startPosition(200.0f, 200.0f);
+	float offsetX = 30.0f;
+	float offsetY = 100.0f;
+
+	for (int i = 0; i < 30; ++i) {
+		auto obstacle = entityManager.createEntity();
+
+		sf::Vector2f position = startPosition + sf::Vector2f(offsetX * i, (i % 2 == 1) ? offsetY : 0);
+		registry.emplace<PositionComponent>(obstacle, position);
+
+		registry.emplace<ObstacleComponent>(obstacle, 30.0f);
+		shape = mngr.CreateSquare(sf::Color::Yellow, 25.0f, 25.0f);
+		registry.emplace<ShapeComponent>(obstacle, shape);
+
+		entities.push_back(obstacle);
+	}
+	/// End Obstacles Actors
 }
 
 

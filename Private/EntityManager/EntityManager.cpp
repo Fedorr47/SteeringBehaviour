@@ -7,20 +7,22 @@
 #include "Systems/FollowSystem.h"
 #include "Systems/FlockSystem.h"
 #include "Systems/ShapeSystem.h"
-#include "Systems/ObstaclesSystem.h"
+#include "Systems/CollisionSystem.h"
 #include "Systems/AvoidanceSystem.h"
 
 std::unordered_map<int, std::shared_ptr<ObstacleComponent>> allObstacles;
 
 EntityManager::EntityManager(const GameSettings& settings, const InputHandler& inputHandler, std::shared_ptr<DebugInfo> debugInfo)
 {
-    Systems.push_back({ "MovementSystem", std::make_unique<MovementSystem>(registry, settings.window.getSize()) });
+
     Systems.push_back({ "InputSystem", std::make_unique<InputSystem>(registry, settings.maxForce, settings.maxSpeed, settings.window, inputHandler) });
-    Systems.push_back({ "FollowSystem", std::make_unique<FollowSystem>(registry) });
-    Systems.push_back({ "ObstaclesSystem", std::make_unique<ObstaclesSystem>(registry) });
-    Systems.push_back({ "AvoidanceSystem", std::make_unique<AvoidanceSystem>(registry) });
     Systems.push_back({ "PathSystem", std::make_unique<PathSystem>(registry) });
+    Systems.push_back({ "FollowSystem", std::make_unique<FollowSystem>(registry) });  
     Systems.push_back({ "FlockSystem", std::make_unique<FlockSystem>(registry) });
+    Systems.push_back({ "AvoidanceSystem", std::make_unique<AvoidanceSystem>(registry) });
+    Systems.push_back({ "CollisionSystem", std::make_unique<CollisionSystem>(registry) });
+
+    Systems.push_back({ "MovementSystem", std::make_unique<MovementSystem>(registry, settings.window.getSize()) });
     Systems.push_back({ "ShapeSystem", std::make_unique<ShapeSystem>(registry) });
 
     RenderSys = std::make_unique<RenderSystem>(registry);

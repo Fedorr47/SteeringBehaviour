@@ -6,7 +6,8 @@
 void ObstaclesSystem::update(float deltaTime)
 {
     auto view = registry.view<ObstacleComponent, PositionComponent>();
-    for (auto entity : view) {
+    for (auto entity : view) 
+    {
         PositionComponent& position = view.get<PositionComponent>(entity);
         ObstacleComponent& obstacle = view.get<ObstacleComponent>(entity);
         

@@ -14,7 +14,8 @@ void ShapeSystem::update(float deltaTime)
         struct entt::exclude_t<> > group
         = registry.group<ShapeComponent, PositionComponent>();
 
-    for (auto entity : group) {
+    for (auto entity : group) 
+    {
         auto& shape = group.get<ShapeComponent>(entity);
         auto& position = group.get<PositionComponent>(entity);
 

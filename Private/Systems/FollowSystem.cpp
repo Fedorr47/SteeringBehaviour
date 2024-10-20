@@ -9,7 +9,8 @@
 void FollowSystem::update(float deltaTime)
 {
 	auto view = registry.view<PositionComponent, VelocityComponent, ChasingComponent>();
-	for (auto entity : view) {
+	for (auto entity : view) 
+	{
 		auto& position = view.get<PositionComponent>(entity);
 		ChasingComponent& chaising = view.get<ChasingComponent>(entity);
 		VelocityComponent& velocity = view.get<VelocityComponent>(entity);
@@ -159,11 +160,13 @@ sf::Vector2f FollowSystem::SeekOrFlee(ManageFollowParams& params, Compare comp, 
 	
 	params.info.distanceToTarget = distance;
 
-	if (comp(distance, radius)) {
+	if (comp(distance, radius)) 
+	{
 		float modifier = inverse ? (radius / distance) : (distance / radius);
 		desiredVelocity = normalize(desiredVelocity) * modifier;
 	}
-	else {
+	else 
+	{
 		desiredVelocity = normalize(desiredVelocity) * max_speed;
 	}
 

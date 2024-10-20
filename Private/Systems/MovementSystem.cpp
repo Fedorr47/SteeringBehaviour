@@ -23,17 +23,20 @@ void MovementSystem::update(float deltaTime)
         }
         position.angle = computeTargetAngle(velocity.velocity) + 90.0f;
 
-        if (position.position.x < 0) {
+        if (position.position.x < 0) 
+        {
             position.position.x = 0;
         }
-        else if (position.position.x + 50 > windowSize.x) {
+        else if (position.position.x + 50 > windowSize.x) 
+        {
             position.position.x = windowSize.x - 50;
         }
 
         if (position.position.y < 0) {
             position.position.y = 0;
         }
-        else if (position.position.y + 50 > windowSize.y) {
+        else if (position.position.y + 50 > windowSize.y) 
+        {
             position.position.y = windowSize.y - 50;
         }
     }

@@ -52,13 +52,15 @@ sf::Vector2f AvoidanceSystem::CollosionAvoidance(ManageAvoidanceParams& params)
     auto mostThreatening = params.avoidComp->theNearstOne;
 
     sf::Vector2f avoidance;
-    if (mostThreatening != nullptr) {
+    if (mostThreatening != nullptr) 
+    {
         avoidance.x = ahead.x - mostThreatening->center.x;
         avoidance.y = ahead.y - mostThreatening->center.y;
         avoidance = normalize(avoidance);
         avoidance *= params.avoidComp->maxAvoidForce;
     }
-    else {
+    else 
+    {
         avoidance *= 0;
     }
 

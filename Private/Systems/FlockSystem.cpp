@@ -4,7 +4,8 @@
 void FlockSystem::update(float deltaTime)
 {
     auto view = registry.view<FlockComponent, VelocityComponent, PositionComponent>();
-	for (auto entity : view) {
+	for (auto entity : view) 
+	{
 		PositionComponent& position = view.get<PositionComponent>(entity);
 		VelocityComponent& velocity = view.get<VelocityComponent>(entity);
 		FlockComponent& flock = view.get<FlockComponent>(entity);
@@ -77,7 +78,8 @@ sf::Vector2f FlockSystem::separation(
 void FlockSystem::init()
 {
 	auto view = registry.view<FlockComponent, VelocityComponent, PositionComponent>();
-	for (auto entity : view) {
+	for (auto entity : view) 
+	{
 		PositionComponent& position = view.get<PositionComponent>(entity);
 		VelocityComponent& velocity = view.get<VelocityComponent>(entity);
 		FlockComponent& flock = view.get<FlockComponent>(entity);

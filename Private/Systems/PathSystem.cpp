@@ -45,7 +45,8 @@ void PathSystem::update(float deltaTime)
 {
     auto view = registry.view<PositionComponent, PathComponent>();
 
-    for (auto entity : view) {
+    for (auto entity : view) 
+    {
         auto& position = view.get<PositionComponent>(entity);
         auto& path = view.get<PathComponent>(entity);
 

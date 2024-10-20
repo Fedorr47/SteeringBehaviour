@@ -15,14 +15,17 @@ void InputSystem::update(float deltaTime)
             continue;
         }
 
-        if (control.autoSwitch) {
+        if (control.autoSwitch) 
+        {
             if (inputHandler.isKeyPressed(sf::Keyboard::Left) || inputHandler.isKeyPressed(sf::Keyboard::Right) ||
                 inputHandler.isKeyPressed(sf::Keyboard::Up) || inputHandler.isKeyPressed(sf::Keyboard::Down)) {
                 control.useMouseControl = false;
             }
-            else {
+            else 
+            {
                 sf::Vector2i mousePos = inputHandler.getMousePosition(window);
-                if (mousePos != lastMousePosition) {
+                if (mousePos != lastMousePosition) 
+                {
                     control.useMouseControl = true;
                     sf::Vector2f target(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
                 }
@@ -30,7 +33,8 @@ void InputSystem::update(float deltaTime)
         }
 
         // TODO: moove to control system
-        if (!control.useMouseControl) {
+        if (!control.useMouseControl) 
+        {
             if (inputHandler.isKeyPressed(sf::Keyboard::Left))
                 velocity.velocity.x = -velocity.speed;
             else if (inputHandler.isKeyPressed(sf::Keyboard::Right))

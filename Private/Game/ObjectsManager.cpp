@@ -144,7 +144,8 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 	registry.emplace<PositionComponent>(player, sf::Vector2f(600.0f, 400.0f));
 	registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 300.0f, 300.0f);
 	registry.emplace<MassComponent>(player, 100.0f);
-	registry.emplace<ShapeComponent>(player, mngr.CreateSquare(sf::Color::Green, 25.0f, 25.0f));
+	auto shape = mngr.CreateSquare(sf::Color::Green, 25.0f, 25.0f);
+	registry.emplace<ShapeComponent>(player, shape);
 	registry.emplace<ControlComponent>(player, false, false);
 	auto leaderPtr = std::make_shared<FlockLeader>(player);
 	registry.emplace<FlockComponent>(player, leaderPtr);
@@ -154,14 +155,15 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 	/// Flock Actors
 	std::vector<sf::Color> colors = { sf::Color::Red, sf::Color::Yellow, sf::Color::Blue, sf::Color::Magenta };
 	float x = 400.0f;
-	for (size_t i = 0; i < 10; ++i) {
+	for (size_t i = 0; i < 2; ++i) {
 		auto entity = registry.create();
 		x += 30.0f;
 		auto pos = sf::Vector2f(x, 450.0f);
 		registry.emplace<PositionComponent>(entity, pos);
 		registry.emplace<VelocityComponent>(entity, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
 		registry.emplace<MassComponent>(entity, 5.0f);
-		registry.emplace<ShapeComponent>(entity, mngr.CreateTriangle(colors[i%colors.size()], 20.0f, 25.0f));
+		shape = mngr.CreateTriangle(colors[i % colors.size()], 20.0f, 25.0f);
+		registry.emplace<ShapeComponent>(entity, shape);
 
 		auto followerPtr = std::make_shared<FlockFollower>(entity, player, leaderPtr);
 		registry.emplace<FlockComponent>(entity, followerPtr, 80.0f, 30.0f, 30.0f, 40.0f);
@@ -172,11 +174,36 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 	/// End Flock Actors
 }
 
+
+void Collide(EntityManager& entityManager, std::vector<entt::entity>& entities, ObjectManager& mngr)
+{
+	auto& registry = entityManager.getRegistry();
+	auto player = entityManager.createEntity();
+
+	registry.emplace<PositionComponent>(player, sf::Vector2f(600.0f, 400.0f));
+	registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 300.0f, 300.0f);
+	registry.emplace<MassComponent>(player, 100.0f);
+	auto shape = mngr.CreateSquare(sf::Color::Green, 25.0f, 25.0f);
+	registry.emplace<ShapeComponent>(player, shape);
+	registry.emplace<ControlComponent>(player, false, false);
+	auto leaderPtr = std::make_shared<FlockLeader>(player);
+
+	entities.push_back(player);
+
+	auto obstacle = entityManager.createEntity();
+	registry.emplace<PositionComponent>(obstacle, sf::Vector2f(400.0f, 400.0f));
+	registry.emplace<ObstacleComponent>(obstacle, 30.0f);
+	shape = mngr.CreateSquare(sf::Color::Yellow, 25.0f, 25.0f);
+	registry.emplace<ShapeComponent>(obstacle, shape);
+
+	entities.push_back(obstacle);
+}
 // end test methods
 
 void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::entity>& entities)
 {
 	Flock(entityManager, entities, *this); // TODO: need to replace to file reading  
+	//Collide(entityManager, entities, *this);
 	entityManager.init();
 }
 

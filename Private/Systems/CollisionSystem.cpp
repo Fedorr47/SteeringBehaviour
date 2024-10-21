@@ -1,6 +1,8 @@
 ﻿#include "Systems/CollisionSystem.h"
 #include "Utils/Utils.h"
 
+constexpr float correctionDist = 0.1f;
+
 sf::Vector2f CollisionSystem::calculateNormal(
 	const PositionComponent& positionA,
 	const PositionComponent& positionB)
@@ -33,22 +35,26 @@ void CollisionSystem::correctPosition(
 	const sf::FloatRect& boundsA,
 	const sf::FloatRect& boundsB)
 {
+	if (positionA.isCorrecting) {
+		return;
+	}
+
 	float overlapLeft = (boundsA.left + boundsA.width) - boundsB.left;
 	float overlapRight = (boundsB.left + boundsB.width) - boundsA.left;
 	float overlapTop = (boundsA.top + boundsA.height) - boundsB.top;
 	float overlapBottom = (boundsB.top + boundsB.height) - boundsA.top;
 
 	if (overlapLeft < overlapRight && overlapLeft < overlapTop && overlapLeft < overlapBottom) {
-		positionA.position.x -= overlapLeft;
+		positionA.position.x -= overlapLeft - correctionDist;
 	}
 	else if (overlapRight < overlapLeft && overlapRight < overlapTop && overlapRight < overlapBottom) {
-		positionA.position.x += overlapRight;
+		positionA.position.x += overlapRight + correctionDist;
 	}
 	else if (overlapTop < overlapBottom) {
-		positionA.position.y -= overlapTop;
+		positionA.position.y -= overlapTop - correctionDist;
 	}
 	else {
-		positionA.position.y += overlapBottom;
+		positionA.position.y += overlapBottom + correctionDist;
 	}
 }
 
@@ -60,8 +66,17 @@ void CollisionSystem::handleCollision(
 	const sf::FloatRect& boundsB)
 {
 	sf::Vector2f normal = calculateNormal(positionA, positionB);
-	velocityA.velocity = calculateSlidingVelocity(velocityA.velocity, normal);
-	correctPosition(positionA, boundsA, boundsB);
+	float dotProduct = velocityA.velocity.x * normal.x + velocityA.velocity.y * normal.y;
+
+	if (dotProduct < 0.0f) {
+		velocityA.velocity = calculateSlidingVelocity(velocityA.velocity, normal);
+		correctPosition(positionA, boundsA, boundsB);
+
+		positionA.isCorrecting = true;
+	}
+	else {
+		positionA.isCorrecting = false;
+	}
 }
 
 void CollisionSystem::update(float deltaTime)

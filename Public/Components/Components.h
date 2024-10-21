@@ -10,6 +10,7 @@ struct PositionComponent
 {
     sf::Vector2f position;
     float angle{ 0.0f };
+    bool isCorrecting{ false };
 };
 
 struct VelocityComponent
@@ -36,7 +37,7 @@ struct ControlComponent {
 
 struct FocusComponent
 {
-    bool isFocusLost = false;
+    bool isFocusLost{ false };
 };
 
 struct ChasingComponent

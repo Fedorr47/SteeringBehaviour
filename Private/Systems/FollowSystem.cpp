@@ -27,6 +27,16 @@ void FollowSystem::update(float deltaTime)
 	};
 }
 
+void FollowSystem::init()
+{
+	auto view = registry.view<VelocityComponent, ChasingComponent>();
+	for (auto entity : view)
+	{
+		VelocityComponent& velocity = view.get<VelocityComponent>(entity);
+		velocity.ruledBySteering = true;
+	};
+}
+
 void FollowSystem::ManageFollow(ManageFollowParams& params)
 {
 	std::vector<sf::Vector2f> steerings;
@@ -77,11 +87,6 @@ void FollowSystem::ManageFollow(ManageFollowParams& params)
 
 	if (totalWeight > 0.0f) {
 		finalSteering /= totalWeight;
-	}
-
-	if (isNearlyEqual(getLength(finalSteering), 0.1f)) 
-	{
-		finalSteering = sf::Vector2f(0.0f, 0.0f);
 	}
 
 	params.velComp->steering += finalSteering;
@@ -153,6 +158,7 @@ template <typename Compare>
 sf::Vector2f FollowSystem::SeekOrFlee(ManageFollowParams& params, Compare comp, bool inverse /*= false*/)
 {
 	float radius = params.currentBehavior->slowingRadius;
+	float fullStopRadius = params.currentBehavior->stopRadius;
 	float max_speed = params.velComp->maxSpeed;
 
 	auto desiredVelocity = params.targetPos - params.posComp->position;
@@ -160,12 +166,17 @@ sf::Vector2f FollowSystem::SeekOrFlee(ManageFollowParams& params, Compare comp, 
 	
 	params.info.distanceToTarget = distance;
 
-	if (comp(distance, radius)) 
+	if (comp(distance, fullStopRadius))
+	{
+		params.velComp->velocity -= params.velComp->velocity;
+		return sf::Vector2f(0.0f, 0.0f);
+	}
+	else if (comp(distance, radius)) 
 	{
 		float modifier = inverse ? (radius / distance) : (distance / radius);
 		desiredVelocity = normalize(desiredVelocity) * modifier;
-	}
-	else 
+	}	
+	else
 	{
 		desiredVelocity = normalize(desiredVelocity) * max_speed;
 	}

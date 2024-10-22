@@ -94,6 +94,8 @@ void FlockSystem::init()
 			follower->arriveBehavior = std::make_shared<PursuitBehavior>(follower->leaderId, flock.leaderBehindDist-1);
 			follower->actualBehavior = follower->arriveBehavior;
 
+			velocity.ruledBySteering = true;
+
 			registry.get<ChasingComponent>(flock.actor->id).Behaviors.push_back(follower->actualBehavior);
 		}
 	}

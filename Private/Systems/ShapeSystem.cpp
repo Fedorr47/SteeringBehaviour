@@ -19,6 +19,6 @@ void ShapeSystem::update(float deltaTime)
         auto& shape = group.get<ShapeComponent>(entity);
         auto& position = group.get<PositionComponent>(entity);
 
-        shape.shape.setRotation(position.angle);
+        shape.shape.setRotation(position.lastAngle);
     }
 }

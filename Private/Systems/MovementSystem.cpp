@@ -1,4 +1,4 @@
-#include "Systems/MovementSystem.h"
+﻿#include "Systems/MovementSystem.h"
 #include "Utils/Utils.h"
 #include "Components/Components.h"
 
@@ -11,7 +11,7 @@ void MovementSystem::update(float deltaTime)
         auto& velocity = view.get<VelocityComponent>(entity);
         auto& mass = view.get<MassComponent>(entity);
 
-        if (getLength(velocity.steering) > 0.00000001)
+        if (velocity.ruledBySteering)
         {
             velocity.velocity = truncate(velocity.velocity + truncate(velocity.steering, 100.0f) / mass.mass, velocity.maxSpeed);
             position.position = position.position + velocity.velocity * deltaTime;
@@ -19,9 +19,17 @@ void MovementSystem::update(float deltaTime)
         }
         else
         {
-            position.position += truncate(velocity.velocity + (velocity.velocity / mass.mass), velocity.maxSpeed) * deltaTime;
+            velocity.velocity = truncate(velocity.velocity + (velocity.velocity / mass.mass), velocity.maxSpeed);
+            position.position = position.position + velocity.velocity * deltaTime;
         }
-        position.angle = computeTargetAngle(velocity.velocity) + 90.0f;
+
+        if (getLength(velocity.velocity) > velocity.stopThreshold) {
+            position.angle = computeTargetAngle(velocity.velocity) + 90.0f;
+            position.lastAngle = position.angle;
+        }
+        else {
+            position.angle = position.lastAngle;
+        }
 
         if (position.position.x < 0) 
         {

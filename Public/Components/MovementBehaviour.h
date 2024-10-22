@@ -38,9 +38,11 @@ struct MovementBehavior
         slowingRadius(slowingRadius)
     {
         type = MoveBehaviourType::NONE;
+        stopRadius = slowingRadius - 1.0f;
     }
     entt::entity object;
-    float slowingRadius{ 0 };
+    float slowingRadius{ 0.0f };
+    float stopRadius{ 0.0f };
 };
 
 struct SeekBehavior : public MovementBehavior

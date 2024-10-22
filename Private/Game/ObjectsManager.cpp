@@ -155,7 +155,7 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 	/// Flock Actors
 	std::vector<sf::Color> colors = { sf::Color::Red, sf::Color::Yellow, sf::Color::Blue, sf::Color::Magenta };
 	float x = 400.0f;
-	for (size_t i = 0; i < 10; ++i) {
+	for (size_t i = 0; i < 5; ++i) {
 		auto entity = registry.create();
 		x += 30.0f;
 		auto pos = sf::Vector2f(x, 450.0f);

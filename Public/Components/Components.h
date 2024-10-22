@@ -10,6 +10,7 @@ struct PositionComponent
 {
     sf::Vector2f position;
     float angle{ 0.0f };
+    float lastAngle{ 0.0f };
     bool isCorrecting{ false };
 };
 
@@ -18,7 +19,10 @@ struct VelocityComponent
     sf::Vector2f velocity;
     float speed;
     float maxSpeed;
+    bool ruledBySteering{ false };
+
     sf::Vector2f steering;
+    float stopThreshold{ 0.01f };
 };
 
 struct ShapeComponent

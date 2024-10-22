@@ -30,6 +30,7 @@ public:
     {}
 
     virtual void update(float deltaTime) override;
+    virtual void init() override;
 
     void ManageFollow(ManageFollowParams& params);
     void PredictPostion(ManageFollowParams& params);

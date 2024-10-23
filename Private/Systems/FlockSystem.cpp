@@ -56,17 +56,20 @@ sf::Vector2f FlockSystem::separation(
 
 	for (auto anotherFollower : leader->followers) {
 		auto& anotherFollowerPos = registry.get<PositionComponent>(anotherFollower->id).position;
-		if (follower->id != anotherFollower->id && distance(anotherFollowerPos, followerPos) <= flockComp.separationRadius) {
-			force.x += anotherFollowerPos.x - followerPos.x;
-			force.y += anotherFollowerPos.y - followerPos.y;
-			neighborCount++;
+		if (follower->id != anotherFollower->id) {
+			float dist = distance(anotherFollowerPos, followerPos);
+			if (dist <= flockComp.separationRadius) {
+				sf::Vector2f direction = followerPos - anotherFollowerPos;
+				normalize(direction);
+				float strength = flockComp.separationRadius / dist;
+				force += direction * strength;
+				neighborCount++;
+			}
 		}
 	}
 
 	if (neighborCount != 0) {
-		force.x /= neighborCount;
-		force.y /= neighborCount;
-		force *= -1;
+		force /= static_cast<float>(neighborCount);
 	}
 
 	normalize(force);

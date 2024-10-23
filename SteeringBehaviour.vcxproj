@@ -253,6 +253,7 @@
     <ClInclude Include="Public\Systems\MovementSystem.h" />
     <ClInclude Include="Public\Systems\ObstaclesSystem.h" />
     <ClInclude Include="Public\Systems\PathSystem.h" />
+    <ClInclude Include="Public\Systems\QueueSystem.h" />
     <ClInclude Include="Public\Systems\RealInputHandler.h" />
     <ClInclude Include="Public\Systems\RenderSystem.h" />
     <ClInclude Include="Public\Systems\ShapeSystem.h" />

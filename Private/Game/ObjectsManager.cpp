@@ -155,7 +155,7 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 	/// Flock Actors
 	std::vector<sf::Color> colors = { sf::Color::Red, sf::Color::Yellow, sf::Color::Blue, sf::Color::Magenta };
 	float x = 400.0f;
-	for (size_t i = 0; i < 5; ++i) {
+	for (size_t i = 0; i < 10; ++i) {
 		auto entity = registry.create();
 		x += 30.0f;
 		auto pos = sf::Vector2f(x, 450.0f);
@@ -166,7 +166,7 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 		registry.emplace<ShapeComponent>(entity, shape);
 
 		auto followerPtr = std::make_shared<FlockFollower>(entity, player, leaderPtr);
-		registry.emplace<FlockComponent>(entity, followerPtr, 80.0f, 30.0f, 30.0f, 40.0f);
+		registry.emplace<FlockComponent>(entity, followerPtr, 80.0f, 30.0f, 45.0f, 40.0f);
 
 		leaderPtr->followers.push_back(followerPtr);
 		entities.push_back(entity);
@@ -192,7 +192,6 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 	}
 	/// End Obstacles Actors
 }
-
 
 void Collide(EntityManager& entityManager, std::vector<entt::entity>& entities, ObjectManager& mngr)
 {

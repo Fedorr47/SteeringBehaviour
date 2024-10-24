@@ -26,5 +26,14 @@ public:
 		PositionComponent& positionB,
 		const sf::FloatRect& boundsA,
 		const sf::FloatRect& boundsB);
+	void resolveCollision(
+		entt::entity entityA,
+		entt::entity entityB,
+		VelocityComponent& velocityA,
+		VelocityComponent& velocityB,
+		PositionComponent& positionA,
+		PositionComponent& positionB,
+		ShapeComponent& shapeA,
+		ShapeComponent& shapeB);
 	virtual void update(float deltaTime) override;
 };

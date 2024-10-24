@@ -79,6 +79,53 @@ void CollisionSystem::handleCollision(
 	}
 }
 
+void CollisionSystem::resolveCollision(
+	entt::entity entityA,
+	entt::entity entityB,
+	VelocityComponent& velocityA, 
+	VelocityComponent& velocityB,
+	PositionComponent& positionA,
+	PositionComponent& positionB,
+	ShapeComponent& shapeA,
+	ShapeComponent& shapeB)
+{
+	sf::Vector2f normal = calculateNormal(positionA, positionB);
+	sf::Vector2f rv = velocityB.velocity - velocityA.velocity;
+	float velAlongNormal = dotProduct(rv, normal);
+
+	if (velAlongNormal > 0)
+		return;
+
+	float e = std::min(shapeA.restitution, shapeB.restitution);
+	// Calculate impulse scalar 
+	float j = -(1 + e) * velAlongNormal;
+
+	auto* massA = registry.try_get<MassComponent>(entityA);
+	auto* massB = registry.try_get<MassComponent>(entityB);
+
+	j /= 1 / massA->invMass + 1 / massB->invMass;
+
+	sf::Vector2f impulse = j * normal;
+	velocityA.velocity -= massA->invMass * impulse;
+	velocityB.velocity += massB->invMass * impulse;
+}
+
+void CollisionSystem::PositionalCorrection(
+	entt::entity entityA,
+	entt::entity entityB,
+	PositionComponent& positionA,
+	PositionComponent& positionB
+)
+{
+	auto* massA = registry.try_get<MassComponent>(entityA);
+	auto* massB = registry.try_get<MassComponent>(entityB);
+	const float percent = 0.2f;
+	const float slop = 0.01f;
+	//sf::Vector2f correction = (std::max(penetration - slop, 0.0f) / (massA->invMass + massB->invMass))* percent * n;
+	positionA.position -= massA->invMass * correction;
+	positionB.position += massB->invMass * correction;
+}
+
 void CollisionSystem::update(float deltaTime)
 {
 	auto view = registry.view<ShapeComponent, PositionComponent>();
@@ -96,8 +143,14 @@ void CollisionSystem::update(float deltaTime)
 
 			if (shapeA.getGlobalBounds().intersects(shapeB.getGlobalBounds()))
 			{
-				if (auto* velocityA = registry.try_get<VelocityComponent>(entityA)) {
+				auto* velocityA = registry.try_get<VelocityComponent>(entityA);
+				auto* velocityB = registry.try_get<VelocityComponent>(entityB);
+				if (velocityA != nullptr && velocityB == nullptr) {
 					handleCollision(*velocityA, positionA, positionB, shapeA.getGlobalBounds(), shapeB.getGlobalBounds());
+				}
+				else if (velocityA != nullptr && velocityB != nullptr)
+				{
+
 				}
 			}
 		}

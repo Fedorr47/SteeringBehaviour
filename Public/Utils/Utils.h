@@ -38,3 +38,5 @@ inline bool isNearlyEqual(T x, T y)
     const T epsilon = 0.000001;
     return std::abs(x - y) <= epsilon * std::abs(x);
 }
+
+float dotProduct(const sf::Vector2f& vectorA, const sf::Vector2f& vectorB);

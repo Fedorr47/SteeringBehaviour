@@ -216,12 +216,39 @@ void Collide(EntityManager& entityManager, std::vector<entt::entity>& entities, 
 
 	entities.push_back(obstacle);
 }
+
+void Impulse(EntityManager& entityManager, std::vector<entt::entity>& entities, ObjectManager& mngr)
+{
+	auto& registry = entityManager.getRegistry();
+	auto player = entityManager.createEntity();
+
+	registry.emplace<PositionComponent>(player, sf::Vector2f(600.0f, 400.0f));
+	registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 300.0f, 300.0f);
+	registry.emplace<MassComponent>(player, 100.0f);
+	auto shape = mngr.CreateTriangle(sf::Color::White, 25.0f, 25.0f);
+	registry.emplace<ShapeComponent>(player, shape);
+	registry.emplace<ControlComponent>(player, false, false);
+
+	entities.push_back(player);
+
+
+	auto entity = registry.create();
+	registry.emplace<PositionComponent>(entity, sf::Vector2f(600.0f, 450.0f));
+	registry.emplace<VelocityComponent>(entity, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
+	registry.emplace<MassComponent>(entity, 50.0f);
+	shape = mngr.CreateTriangle(sf::Color::White, 25.0f, 25.0f);
+	registry.emplace<ShapeComponent>(entity, shape);
+
+	entities.push_back(entity);
+
+}
 // end test methods
 
 void ObjectManager::initObjects(EntityManager& entityManager, std::vector<entt::entity>& entities)
 {
-	Flock(entityManager, entities, *this); // TODO: need to replace to file reading  
+	//Flock(entityManager, entities, *this); // TODO: need to replace to file reading  
 	//Collide(entityManager, entities, *this);
+	Impulse(entityManager, entities, *this);
 	entityManager.init();
 }
 

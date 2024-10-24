@@ -60,6 +60,11 @@ float distance(const sf::Vector2f& obj1, const sf::Vector2f& obj2)
     return sqrt((obj1.x - obj2.x) * (obj1.x - obj2.x) + (obj1.y - obj2.y) * (obj1.y - obj2.y));
 }
 
+float dotProduct(const sf::Vector2f& vectorA, const sf::Vector2f& vectorB)
+{
+    return vectorA.x * vectorB.x + vectorA.y * vectorB.y;
+}
+
 float randomFloat(float min, float max)
 {
     static std::random_device rd;

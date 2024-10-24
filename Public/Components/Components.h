@@ -28,10 +28,16 @@ struct VelocityComponent
 struct ShapeComponent
 {
     sf::ConvexShape shape;
+    float restitution{ 10.0f };
 };
 
 struct MassComponent {
     float mass;
+    float invMass{ 0.0f };
+    MassComponent()
+    {
+        invMass = 1 / mass;
+    }
 };
 
 struct ControlComponent {

@@ -34,10 +34,6 @@ struct ShapeComponent
 struct MassComponent {
     float mass;
     float invMass{ 0.0f };
-    MassComponent()
-    {
-        invMass = 1 / mass;
-    }
 };
 
 struct ControlComponent {

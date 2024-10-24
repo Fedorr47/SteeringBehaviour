@@ -35,5 +35,10 @@ public:
 		PositionComponent& positionB,
 		ShapeComponent& shapeA,
 		ShapeComponent& shapeB);
+	void PositionalCorrection(
+		entt::entity entityA, 
+		entt::entity entityB, 
+		PositionComponent& positionA,
+		PositionComponent& positionB);
 	virtual void update(float deltaTime) override;
 };

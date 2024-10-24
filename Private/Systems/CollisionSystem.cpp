@@ -121,9 +121,9 @@ void CollisionSystem::PositionalCorrection(
 	auto* massB = registry.try_get<MassComponent>(entityB);
 	const float percent = 0.2f;
 	const float slop = 0.01f;
-	//sf::Vector2f correction = (std::max(penetration - slop, 0.0f) / (massA->invMass + massB->invMass))* percent * n;
+	/*sf::Vector2f correction = (std::max(penetration - slop, 0.0f) / (massA->invMass + massB->invMass)) * percent * n;
 	positionA.position -= massA->invMass * correction;
-	positionB.position += massB->invMass * correction;
+	positionB.position += massB->invMass * correction;*/
 }
 
 void CollisionSystem::update(float deltaTime)
@@ -132,25 +132,25 @@ void CollisionSystem::update(float deltaTime)
 	for (auto entityA : view) 
 	{
 		PositionComponent& positionA = view.get<PositionComponent>(entityA);
-		auto& shapeA = view.get<ShapeComponent>(entityA).shape;
+		auto& shapeA = view.get<ShapeComponent>(entityA);
 
 		for (auto entityB : view) 
 		{
 			if (entityA == entityB) continue;
 
 			auto& positionB = view.get<PositionComponent>(entityB);
-			auto& shapeB = view.get<ShapeComponent>(entityB).shape;
+			auto& shapeB = view.get<ShapeComponent>(entityB);
 
-			if (shapeA.getGlobalBounds().intersects(shapeB.getGlobalBounds()))
+			if (shapeA.shape.getGlobalBounds().intersects(shapeB.shape.getGlobalBounds()))
 			{
 				auto* velocityA = registry.try_get<VelocityComponent>(entityA);
 				auto* velocityB = registry.try_get<VelocityComponent>(entityB);
 				if (velocityA != nullptr && velocityB == nullptr) {
-					handleCollision(*velocityA, positionA, positionB, shapeA.getGlobalBounds(), shapeB.getGlobalBounds());
+					handleCollision(*velocityA, positionA, positionB, shapeA.shape.getGlobalBounds(), shapeB.shape.getGlobalBounds());
 				}
 				else if (velocityA != nullptr && velocityB != nullptr)
 				{
-
+					resolveCollision(entityA, entityB, *velocityA, *velocityB, positionA, positionB, shapeA, shapeB);
 				}
 			}
 		}

@@ -10,7 +10,7 @@ void Wander_Pursuit_Path_Plyaer(EntityManager& entityManager, std::vector<entt::
 
 	registry.emplace<PositionComponent>(player, sf::Vector2f(375.0f, 275.0f));
 	registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
-	registry.emplace<MassComponent>(player, 100.0f);
+	registry.emplace<MassComponent>(player, 100.0f, 1/100.0f);
 	registry.emplace<ShapeComponent>(player, mngr.CreateSquare(sf::Color::Green, 25.0f, 25.0f));
 	registry.emplace<ControlComponent>(player, false, false);
 
@@ -41,7 +41,7 @@ void Wander_Pursuit_Path_Plyaer(EntityManager& entityManager, std::vector<entt::
 
 	registry.emplace<PositionComponent>(Wnaderer, sf::Vector2f(200.0f, 200.0f));
 	registry.emplace<VelocityComponent>(Wnaderer, sf::Vector2f(0.0f, -10.0f), 5.0f, 5.0f);
-	registry.emplace<MassComponent>(Wnaderer, 10.0f);
+	registry.emplace<MassComponent>(Wnaderer, 100.0f, 1 / 10.0f);
 
 	registry.emplace<ShapeComponent>(Wnaderer, mngr.CreateTriangle(sf::Color::Red, 20.0f, 25.0f));
 
@@ -62,7 +62,7 @@ void Wander_Pursuit_Path_Plyaer(EntityManager& entityManager, std::vector<entt::
 
 	registry.emplace<PositionComponent>(Pursuiter, sf::Vector2f(250.0f, 250.0f));
 	registry.emplace<VelocityComponent>(Pursuiter, sf::Vector2f(0.0f, 0.0f), 100.0f, 100.0f);
-	registry.emplace<MassComponent>(Pursuiter, 2.0f);
+	registry.emplace<MassComponent>(Pursuiter, 2.0f, 1 / 2.0f);
 	registry.emplace<AvoidanceComponent>(Pursuiter, 200.0f, 50.0f);
 
 	registry.emplace<ShapeComponent>(Pursuiter, mngr.CreateTriangle(sf::Color::Red, 20.0f, 25.0f));
@@ -86,7 +86,7 @@ void Wander_Pursuit_Path_Plyaer(EntityManager& entityManager, std::vector<entt::
 
 	registry.emplace<PositionComponent>(Follower, sf::Vector2f(250.0f, 250.0f));
 	registry.emplace<VelocityComponent>(Follower, sf::Vector2f(0.0f, 0.0f), 100.0f, 100.0f);
-	registry.emplace<MassComponent>(Follower, 2.0f);
+	registry.emplace<MassComponent>(Follower, 2.0f, 1 / 2.0f);
 	registry.emplace<ShapeComponent>(Follower, mngr.CreateTriangle(sf::Color::Green, 20.0f, 25.0f));
 
 	PathComponent path({
@@ -106,7 +106,7 @@ void Pursuit_Evade(EntityManager& entityManager, std::vector<entt::entity>& enti
 
 	registry.emplace<PositionComponent>(player, sf::Vector2f(375.0f, 275.0f));
 	registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
-	registry.emplace<MassComponent>(player, 100.0f);
+	registry.emplace<MassComponent>(player, 100.0f, 1 / 100.0f);
 	registry.emplace<ShapeComponent>(player, mngr.CreateSquare(sf::Color::Green, 25.0f, 25.0f));
 	registry.emplace<ControlComponent>(player, false, false);
 
@@ -116,7 +116,7 @@ void Pursuit_Evade(EntityManager& entityManager, std::vector<entt::entity>& enti
 
 	registry.emplace<PositionComponent>(Pursuiter, sf::Vector2f(250.0f, 250.0f));
 	registry.emplace<VelocityComponent>(Pursuiter, sf::Vector2f(0.0f, 0.0f), 100.0f, 100.0f);
-	registry.emplace<MassComponent>(Pursuiter, 2.0f);
+	registry.emplace<MassComponent>(Pursuiter, 2.0f, 1 / 2.0f);
 	registry.emplace<AvoidanceComponent>(Pursuiter, 200.0f, 50.0f);
 
 	registry.emplace<ShapeComponent>(Pursuiter, mngr.CreateTriangle(sf::Color::Red, 20.0f, 25.0f));
@@ -143,7 +143,7 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 
 	registry.emplace<PositionComponent>(player, sf::Vector2f(600.0f, 400.0f));
 	registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 300.0f, 300.0f);
-	registry.emplace<MassComponent>(player, 100.0f);
+	registry.emplace<MassComponent>(player, 100.0f, 1 / 100.0f);
 	auto shape = mngr.CreateTriangle(sf::Color::White, 25.0f, 25.0f);
 	registry.emplace<ShapeComponent>(player, shape);
 	registry.emplace<ControlComponent>(player, false, false);
@@ -161,7 +161,7 @@ void Flock(EntityManager& entityManager, std::vector<entt::entity>& entities, Ob
 		auto pos = sf::Vector2f(x, 450.0f);
 		registry.emplace<PositionComponent>(entity, pos);
 		registry.emplace<VelocityComponent>(entity, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
-		registry.emplace<MassComponent>(entity, 5.0f);
+		registry.emplace<MassComponent>(entity, 5.0f, 1 / 5.0f);
 		shape = mngr.CreateTriangle(colors[i % colors.size()], 20.0f, 25.0f);
 		registry.emplace<ShapeComponent>(entity, shape);
 
@@ -224,7 +224,7 @@ void Impulse(EntityManager& entityManager, std::vector<entt::entity>& entities, 
 
 	registry.emplace<PositionComponent>(player, sf::Vector2f(600.0f, 400.0f));
 	registry.emplace<VelocityComponent>(player, sf::Vector2f(0.0f, 0.0f), 300.0f, 300.0f);
-	registry.emplace<MassComponent>(player, 100.0f);
+	registry.emplace<MassComponent>(player, 100.0f, 1 / 100.0f);
 	auto shape = mngr.CreateTriangle(sf::Color::White, 25.0f, 25.0f);
 	registry.emplace<ShapeComponent>(player, shape);
 	registry.emplace<ControlComponent>(player, false, false);
@@ -235,8 +235,8 @@ void Impulse(EntityManager& entityManager, std::vector<entt::entity>& entities, 
 	auto entity = registry.create();
 	registry.emplace<PositionComponent>(entity, sf::Vector2f(600.0f, 450.0f));
 	registry.emplace<VelocityComponent>(entity, sf::Vector2f(0.0f, 0.0f), 200.0f, 200.0f);
-	registry.emplace<MassComponent>(entity, 50.0f);
-	shape = mngr.CreateTriangle(sf::Color::White, 25.0f, 25.0f);
+	registry.emplace<MassComponent>(entity, 50.0f, 1 / 50.0f);
+	shape = mngr.CreateTriangle(sf::Color::Red, 25.0f, 25.0f);
 	registry.emplace<ShapeComponent>(entity, shape);
 
 	entities.push_back(entity);
